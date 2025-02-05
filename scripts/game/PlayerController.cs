@@ -1,4 +1,6 @@
 using Godot;
+using Minecraft.scripts.engine;
+using Minecraft.scripts.worldgen;
 
 namespace Minecraft.scripts.game;
 
@@ -64,6 +66,12 @@ public partial class PlayerController : CharacterBody3D
 	{
 		_gravityEnabled = true;
 		_inputEnabled = true;
+
+		Vector2I chunkPos = ChunkManager.Instance.GetChunkPosAt(GlobalPosition);
+		Chunk chunk = ChunkManager.Instance.GetChunkAt(GlobalPosition);
+		Vector3I posInChunk = ChunkManager.Instance.GetPosInChunk(GlobalPosition, chunkPos);
+		int height = chunk.GetHeightAt(new Vector2I(posInChunk.X, posInChunk.Z));
+		GlobalPosition = GlobalPosition * new Vector3(1, 0, 1) + height * Vector3.Up;
 	}
 
 	public override void _PhysicsProcess(double delta)
