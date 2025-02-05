@@ -16,8 +16,8 @@ public partial class BlockBreaker : RayCast3D
             var chunkManager = ChunkManager.Instance;
             Chunk chunk = chunkManager.GetChunkAt(worldPosHit);
             Vector2I chunkPos = chunkManager.GetChunkPosAt(worldPosHit);
-            Vector3I posInChunk = chunkManager.GetPosInChunk(worldPosHit, chunkPos);
-            GD.Print("Destroying block: " + chunk.GetBlock(posInChunk));
+            Vector3I posInChunk = chunkManager.GetPosInChunk(worldPosHit);
+            GD.Print($"Destroying block: {chunk.GetBlock(posInChunk)} at pos {posInChunk} of chunk {chunkPos}");
             chunk.SetBlock(posInChunk, (ushort)Blocks.DefaultBlock.Air);
             chunk.UpdateMeshImmediate();
         }

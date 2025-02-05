@@ -71,7 +71,7 @@ public partial class PlayerController : CharacterBody3D
 
 		Vector2I chunkPos = ChunkManager.Instance.GetChunkPosAt(GlobalPosition);
 		Chunk chunk = ChunkManager.Instance.GetChunkAt(GlobalPosition);
-		Vector3I posInChunk = ChunkManager.Instance.GetPosInChunk(GlobalPosition, chunkPos);
+		Vector3I posInChunk = ChunkManager.Instance.GetPosInChunk(GlobalPosition);
 		int height = chunk.GetHeightAt(new Vector2I(posInChunk.X, posInChunk.Z));
 		GlobalPosition = GlobalPosition * new Vector3(1, 0, 1) + height * Vector3.Up;
 	}
