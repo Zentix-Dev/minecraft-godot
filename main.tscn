@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://y30mgtlucwio"]
+[gd_scene load_steps=12 format=3 uid="uid://y30mgtlucwio"]
 
 [ext_resource type="Script" path="res://scripts/worldgen/ChunkManager.cs" id="2_5mwg0"]
 [ext_resource type="PackedScene" uid="uid://wqof2vwfl0ua" path="res://scripts/worldgen/chunk.tscn" id="2_s5tm7"]
 [ext_resource type="Script" path="res://scripts/scene_camera.gd" id="2_vgylh"]
 [ext_resource type="Script" path="res://scripts/worldgen/SimpleChunkBuilder.cs" id="4_1tvrn"]
+[ext_resource type="Script" path="res://scripts/game/PlayerController.cs" id="5_ooiqt"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_enmal"]
 
@@ -52,7 +53,10 @@ ChunkBuilder = SubResource("Resource_vwoqe")
 Viewer = NodePath("../Pivot/Camera3D")
 RenderDistance = 15
 
-[node name="Player" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Camera")]
+script = ExtResource("5_ooiqt")
+Camera = NodePath("Camera3D")
+Sensitivity = Vector2(0.05, 0.05)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("BoxShape3D_ecoq5")
@@ -62,3 +66,4 @@ mesh = SubResource("BoxMesh_ebieq")
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.635578, 0)
+current = true
