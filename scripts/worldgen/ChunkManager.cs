@@ -7,6 +7,8 @@ namespace Minecraft.scripts.worldgen;
 
 public partial class ChunkManager : Node3D
 {
+    public static ChunkManager Instance;
+    
     [Export] private PackedScene _chunkScene;
     [Export] public ChunkBuilder ChunkBuilder;
     [Export] public Node3D Viewer;
@@ -58,6 +60,8 @@ public partial class ChunkManager : Node3D
 
     public override void _Ready()
     {
+        Instance = this;
+        
         int chunksBuilt = 0;
         int chunksNeedBuilt = 8 * 8;
         
