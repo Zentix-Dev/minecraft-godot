@@ -56,7 +56,7 @@ RenderDistance = 15
 [node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Camera")]
 script = ExtResource("5_ooiqt")
 Camera = NodePath("Camera3D")
-Sensitivity = Vector2(0.05, 0.05)
+Sensitivity = Vector2(0.025, 0.025)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 shape = SubResource("BoxShape3D_ecoq5")
