@@ -40,6 +40,12 @@ public partial class PlayerController : CharacterBody3D
 		}
 	}
 
+	public void OnChunksLoaded()
+	{
+		_gravityEnabled = true;
+		_inputEnabled = true;
+	}
+
 	public override void _PhysicsProcess(double delta)
 	{
 		Vector3 velocity = Velocity;
