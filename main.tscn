@@ -1,6 +1,5 @@
-[gd_scene load_steps=12 format=3 uid="uid://y30mgtlucwio"]
+[gd_scene load_steps=11 format=3 uid="uid://y30mgtlucwio"]
 
-[ext_resource type="PackedScene" uid="uid://d0uc2sukjk2jv" path="res://editor_camera.tscn" id="1_o77nb"]
 [ext_resource type="Script" path="res://scripts/worldgen/ChunkManager.cs" id="2_5mwg0"]
 [ext_resource type="PackedScene" uid="uid://wqof2vwfl0ua" path="res://scripts/worldgen/chunk.tscn" id="2_s5tm7"]
 [ext_resource type="Script" path="res://scripts/worldgen/SimpleChunkBuilder.cs" id="4_1tvrn"]
@@ -32,8 +31,6 @@ size = Vector3(0.75, 2, 0.75)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.0346652, 0.989472, -0.140514, 0.337323, 0.143932, 0.930321, 0.940751, -0.0151488, -0.338761, 0, 0.0030418, 0)
-
-[node name="EditorCamera" parent="." instance=ExtResource("1_o77nb")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_423xg")
