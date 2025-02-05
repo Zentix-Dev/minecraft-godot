@@ -11,7 +11,8 @@ public partial class BlockBreaker : RayCast3D
         if (@event is InputEventMouseButton { Pressed: true })
         {
             GetViewport().SetInputAsHandled();
-            Vector3 worldPosHit = GetCollisionPoint().Round();
+            Vector3 worldPosHit = (GetCollisionPoint() - GetCollisionNormal() * .05f).Round();
+            
             var chunkManager = ChunkManager.Instance;
             Chunk chunk = chunkManager.GetChunkAt(worldPosHit);
             Vector2I chunkPos = chunkManager.GetChunkPosAt(worldPosHit);
