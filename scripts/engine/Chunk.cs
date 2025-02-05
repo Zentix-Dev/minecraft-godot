@@ -82,6 +82,13 @@ public partial class Chunk : MeshInstance3D
         return Blocks[pos.X, pos.Y, pos.Z];
     }
 
+    public void SetBlock(Vector3I pos, ushort block)
+    {
+        if (pos.Y >= Size.Y || pos.Y < 0 || pos.X >= Size.X || pos.X < 0 || pos.Z >= Size.Z || pos.Z < 0)
+            return;
+        Blocks[pos.X, pos.Y, pos.Z] = block;
+    }
+
     private void UpdateCube(Vector3I pos)
     {
         ushort block = GetBlock(pos);
