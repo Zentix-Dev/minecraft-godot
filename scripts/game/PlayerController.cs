@@ -16,6 +16,8 @@ public partial class PlayerController : CharacterBody3D
 
 	[Export] public float Weight = 2;
 
+	private bool _gravityEnabled = false;
+
 	public override void _EnterTree()
 	{
 		Input.SetMouseMode(Input.MouseModeEnum.Captured);
@@ -40,7 +42,7 @@ public partial class PlayerController : CharacterBody3D
 	{
 		Vector3 velocity = Velocity;
 		
-		if (!IsOnFloor())
+		if (!IsOnFloor() && _gravityEnabled)
 		{
 			velocity += GetGravity() * Weight * (float)delta;
 		}
