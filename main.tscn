@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://y30mgtlucwio"]
+[gd_scene load_steps=14 format=3 uid="uid://y30mgtlucwio"]
 
 [ext_resource type="Script" path="res://scripts/worldgen/ChunkManager.cs" id="2_5mwg0"]
 [ext_resource type="PackedScene" uid="uid://wqof2vwfl0ua" path="res://scripts/worldgen/chunk.tscn" id="2_s5tm7"]
 [ext_resource type="Script" path="res://scripts/worldgen/SimpleChunkBuilder.cs" id="4_1tvrn"]
 [ext_resource type="Script" path="res://scripts/game/BlockBreaker.cs" id="5_cdg6q"]
 [ext_resource type="Script" path="res://scripts/game/PlayerController.cs" id="5_ooiqt"]
+[ext_resource type="Script" path="res://ChunkDebugger.cs" id="6_4y2if"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_enmal"]
 
@@ -28,6 +29,9 @@ size = Vector3(0.75, 2, 0.75)
 [sub_resource type="BoxMesh" id="BoxMesh_ebieq"]
 size = Vector3(0.75, 2, 0.75)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_avmb2"]
+bg_color = Color(1, 1, 1, 1)
+
 [node name="Main" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -48,6 +52,7 @@ collision_layer = 2
 script = ExtResource("5_ooiqt")
 Camera = NodePath("Camera3D")
 Sensitivity = Vector2(0.013, 0.013)
+JumpVelocity = 7.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -65,5 +70,89 @@ current = true
 target_position = Vector3(0, 0, -5)
 hit_back_faces = false
 script = ExtResource("5_cdg6q")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Label" type="Label" parent="Control" node_paths=PackedStringArray("Player", "ChunkManager")]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Chunk: (0 | 0)"
+script = ExtResource("6_4y2if")
+Player = NodePath("../../Player")
+ChunkManager = NodePath("../../ChunkBuilder")
+
+[node name="Crosshair" type="Control" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="Line0" type="Panel" parent="Control/Crosshair"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -3.0
+offset_right = 3.0
+offset_bottom = 20.0
+grow_horizontal = 2
+pivot_offset = Vector2(3, 20)
+theme_override_styles/panel = SubResource("StyleBoxFlat_avmb2")
+
+[node name="Line1" type="Panel" parent="Control/Crosshair"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -3.0
+offset_right = 3.0
+offset_bottom = 20.0
+grow_horizontal = 2
+rotation = 1.57079
+pivot_offset = Vector2(3, 20)
+theme_override_styles/panel = SubResource("StyleBoxFlat_avmb2")
+
+[node name="Line2" type="Panel" parent="Control/Crosshair"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -3.0
+offset_right = 3.0
+offset_bottom = 20.0
+grow_horizontal = 2
+rotation = 3.14159
+pivot_offset = Vector2(3, 20)
+theme_override_styles/panel = SubResource("StyleBoxFlat_avmb2")
+
+[node name="Line3" type="Panel" parent="Control/Crosshair"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -3.0
+offset_right = 3.0
+offset_bottom = 20.0
+grow_horizontal = 2
+rotation = 4.71238
+pivot_offset = Vector2(3, 20)
+theme_override_styles/panel = SubResource("StyleBoxFlat_avmb2")
 
 [connection signal="InitialChunksLoaded" from="ChunkBuilder" to="Player" method="OnChunksLoaded"]
