@@ -1,8 +1,8 @@
 using Godot;
 
-namespace FirstPersonController;
+namespace Minecraft.scripts.game;
 
-public partial class FirstPersonController : CharacterBody3D
+public partial class PlayerController : CharacterBody3D
 {
 	[Export, ExportGroup("Camera")] 
 	public Node3D Camera;
