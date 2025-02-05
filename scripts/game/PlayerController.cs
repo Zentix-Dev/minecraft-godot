@@ -39,6 +39,7 @@ public partial class PlayerController : CharacterBody3D
 		{
 			if (keyEvent.Pressed && keyEvent.Keycode == Key.Escape)
 			{
+				GetViewport().SetInputAsHandled();
 				Input.SetMouseMode(Input.MouseModeEnum.Visible);
 				_escaped = true;
 			}
@@ -48,6 +49,7 @@ public partial class PlayerController : CharacterBody3D
 		{
 			if (mouseEvent.Pressed && _escaped)
 			{
+				GetViewport().SetInputAsHandled();
 				_escaped = false;
 				Input.SetMouseMode(Input.MouseModeEnum.Captured);
 			}
