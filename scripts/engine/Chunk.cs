@@ -41,7 +41,7 @@ public partial class Chunk : MeshInstance3D
 
     private void CreateCollider()
     {
-        _collisionShape.Shape = Mesh.CreateConvexShape();
+        CollisionShape.Shape = Mesh.CreateTrimeshShape();
     }
 
     private void CreateMesh()
