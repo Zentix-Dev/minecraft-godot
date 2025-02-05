@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0uc2sukjk2jv"]
+
+[ext_resource type="Script" path="res://scripts/scene_camera.gd" id="1_ijclh"]
+
+[node name="EditorCamera" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+script = ExtResource("1_ijclh")
+zoom_speed = 0.25
+move_speed = 0.1
+shift_mul = 1.2
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.911733, 0.410783, 0, -0.410783, 0.911733, 0, 2.71261, 5)
