@@ -17,6 +17,7 @@ public partial class PlayerController : CharacterBody3D
 	[Export] public float Weight = 2;
 
 	private bool _gravityEnabled = false;
+	private bool _inputEnabled = false;
 
 	public override void _EnterTree()
 	{
@@ -30,6 +31,7 @@ public partial class PlayerController : CharacterBody3D
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
+		if (!_inputEnabled) return;
 		if (@event is InputEventMouseMotion eventMouseMotion)
 		{
 			Vector3 rotation = Camera.Rotation;
