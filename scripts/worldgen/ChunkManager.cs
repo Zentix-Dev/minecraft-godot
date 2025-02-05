@@ -86,8 +86,7 @@ public partial class ChunkManager : Node3D
 
     public Vector2I GetChunkPosAt(Vector3 worldPosition)
     {
-        return new Vector2I((int)worldPosition.X, (int)worldPosition.Z) /
-                                 new Vector2I(Chunk.Size.X, Chunk.Size.Z);
+        return (Vector2I)(new Vector2(worldPosition.X, worldPosition.Z) / new Vector2(Chunk.Size.X, Chunk.Size.Z)).Round();
     }
 
     public Vector3I GetPosInChunk(Vector3 worldPosition, Vector2I chunkPosition)
