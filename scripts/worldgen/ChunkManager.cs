@@ -25,18 +25,6 @@ public partial class ChunkManager : Node3D
     [Signal]
     public delegate void InitialChunksLoadedEventHandler();
 
-    private void UpdateNeighbors(Vector2I chunkPosition)
-    {
-        if (Chunks.TryGetValue(chunkPosition + Vector2I.Left, out Chunk chunkLeft))
-            chunkLeft.UpdateMesh();
-        if (Chunks.TryGetValue(chunkPosition + Vector2I.Right, out Chunk chunkRight))
-            chunkRight.UpdateMesh();
-        if (Chunks.TryGetValue(chunkPosition + Vector2I.Up, out Chunk chunkUp))
-            chunkUp.UpdateMesh();
-        if (Chunks.TryGetValue(chunkPosition + Vector2I.Down, out Chunk chunkDown))
-            chunkDown.UpdateMesh();
-    }
-
     public Chunk BuildChunk(Vector2I position)
     {
         var chunk = _chunkScene.Instantiate<Chunk>();
@@ -46,7 +34,7 @@ public partial class ChunkManager : Node3D
         chunk.ChunkManager = this;
         
         Chunks.Add(position, chunk);
-        UpdateNeighbors(position);
+        chunk.UpdateNeighbors();
         
         EmitSignal(SignalName.ChunkAdded, chunk);
         
