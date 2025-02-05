@@ -84,10 +84,17 @@ public partial class ChunkManager : Node3D
         }
     }
 
+    public Vector2I GetChunkPosAt(Vector3 worldPosition)
+    {
+        return new Vector2I((int)worldPosition.X, (int)worldPosition.Z) /
+                                 new Vector2I(Chunk.Size.X, Chunk.Size.Z);
+    }
+
+    public Chunk GetChunkAt(Vector3 worldPosition) => Chunks.GetValueOrDefault(GetChunkPosAt(worldPosition));
+
     public override void _Process(double delta)
     {
-        Vector2I chunkPosition = new Vector2I((int)Viewer.GlobalPosition.X, (int)Viewer.GlobalPosition.Z) /
-                                 new Vector2I(Chunk.Size.X, Chunk.Size.Z);
+        var chunkPosition = GetChunkPosAt(Viewer.GlobalPosition);
         var visibleChunks = new HashSet<Vector2I>();
         for (int x = chunkPosition.X - RenderDistance / 2; x < chunkPosition.X + RenderDistance / 2; x++)
         {
