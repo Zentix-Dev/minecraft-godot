@@ -113,6 +113,17 @@ public partial class Chunk : MeshInstance3D
         }
     }
 
+    public int GetHeightAt(Vector2I pos)
+    {
+        for (int z = Size.Y - 1; z >= 0; z--)
+        {
+            if (engine.Blocks.IsSolid(GetBlock(new Vector3I(pos.X, z, pos.Y))))
+                return z + 1;
+        }
+
+        return 0;
+    }
+
     private void UpdateMeshNow()
     {
         _isUpdating = true;
