@@ -12,7 +12,7 @@ public partial class Chunk : MeshInstance3D
     
     public ushort[,,] Blocks = new ushort[Size.X, Size.Y, Size.Z];
 
-    [Export] private CollisionShape3D _collisionShape;
+    [Export] public CollisionShape3D CollisionShape;
     
     public ChunkManager ChunkManager;
     public Vector2I ChunkPos;
