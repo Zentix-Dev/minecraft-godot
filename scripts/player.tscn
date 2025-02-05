@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdsfkrl7aiqm"]
+
+[ext_resource type="Script" path="res://scripts/game/Player.cs" id="1_5l1i3"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wjkd0"]
+size = Vector3(0.75, 2, 0.75)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_lnbxw"]
+
+[node name="Player" type="RigidBody3D" node_paths=PackedStringArray("_camera")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 24, 0)
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+freeze = true
+contact_monitor = true
+max_contacts_reported = 5
+script = ExtResource("1_5l1i3")
+_sensitivity = Vector2(0.5, 0.5)
+_camera = NodePath("Camera3D")
+_speed = 5.0
+JumpForce = 5.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_wjkd0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_lnbxw")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.650393, 0)
+current = true

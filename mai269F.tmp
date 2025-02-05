@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://y30mgtlucwio"]
+
+[ext_resource type="Script" path="res://scripts/engine/mesh_tester.gd" id="1_1licq"]
+[ext_resource type="Script" path="res://scripts/scene_camera.gd" id="2_vgylh"]
+
+[node name="Main" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+script = ExtResource("1_1licq")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.568816, 0.80318, 0.177062, 0.514757, -0.515562, 0.684997, 0.641463, -0.298493, -0.706702, 0, 0, 0)
+
+[node name="Pivot" type="Node3D" parent="."]
+script = ExtResource("2_vgylh")
+zoom_speed = 0.25
+move_speed = 0.2
+
+[node name="Camera3D" type="Camera3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)

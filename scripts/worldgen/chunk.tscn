@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://wqof2vwfl0ua"]
+
+[ext_resource type="Material" uid="uid://c0huhvrpn5bky" path="res://assets/cube_material.tres" id="1_xyraa"]
+[ext_resource type="Script" path="res://scripts/engine/Chunk.cs" id="2_2unpd"]
+
+[node name="Chunk" type="MeshInstance3D" node_paths=PackedStringArray("_collisionShape")]
+material_override = ExtResource("1_xyraa")
+script = ExtResource("2_2unpd")
+_collisionShape = NodePath("StaticBody3D/CollisionShape3D")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]

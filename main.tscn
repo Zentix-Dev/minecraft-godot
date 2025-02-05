@@ -1,0 +1,64 @@
+[gd_scene load_steps=11 format=3 uid="uid://y30mgtlucwio"]
+
+[ext_resource type="Script" path="res://scripts/worldgen/ChunkManager.cs" id="2_5mwg0"]
+[ext_resource type="PackedScene" uid="uid://wqof2vwfl0ua" path="res://scripts/worldgen/chunk.tscn" id="2_s5tm7"]
+[ext_resource type="Script" path="res://scripts/scene_camera.gd" id="2_vgylh"]
+[ext_resource type="Script" path="res://scripts/worldgen/SimpleChunkBuilder.cs" id="4_1tvrn"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_enmal"]
+
+[sub_resource type="Sky" id="Sky_huklt"]
+sky_material = SubResource("PhysicalSkyMaterial_enmal")
+
+[sub_resource type="Environment" id="Environment_423xg"]
+background_mode = 2
+sky = SubResource("Sky_huklt")
+
+[sub_resource type="Resource" id="Resource_vwoqe"]
+script = ExtResource("4_1tvrn")
+Height = 20
+TopBlock = 3
+MiddleBlock = 2
+BottomBlock = 1
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ecoq5"]
+size = Vector3(0.75, 2, 0.75)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ebieq"]
+size = Vector3(0.75, 2, 0.75)
+
+[node name="Main" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.0346652, 0.989472, -0.140514, 0.337323, 0.143932, 0.930321, 0.940751, -0.0151488, -0.338761, 0, 0.0030418, 0)
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+script = ExtResource("2_vgylh")
+zoom_speed = 0.25
+move_speed = 0.1
+shift_mul = 1.2
+
+[node name="Camera3D" type="Camera3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, 0.911733, 0.410783, 0, -0.410783, 0.911733, 0, 2.71261, 5)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_423xg")
+
+[node name="ChunkBuilder" type="Node3D" parent="." node_paths=PackedStringArray("Viewer")]
+script = ExtResource("2_5mwg0")
+_chunkScene = ExtResource("2_s5tm7")
+ChunkBuilder = SubResource("Resource_vwoqe")
+Viewer = NodePath("../Pivot/Camera3D")
+RenderDistance = 15
+
+[node name="Player" type="CharacterBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+shape = SubResource("BoxShape3D_ecoq5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("BoxMesh_ebieq")
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.635578, 0)
