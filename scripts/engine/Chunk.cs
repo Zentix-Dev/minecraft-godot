@@ -155,6 +155,30 @@ public partial class Chunk : MeshInstance3D
         }).Start();
     }
 
+    public void UpdateNeighbors()
+    {
+        if (ChunkManager.Chunks.TryGetValue(ChunkPos + Vector2I.Right, out Chunk neighborRight))
+            neighborRight.UpdateMesh();
+        if (ChunkManager.Chunks.TryGetValue(ChunkPos + Vector2I.Left, out Chunk neighborLeft))
+            neighborLeft.UpdateMesh();
+        if (ChunkManager.Chunks.TryGetValue(ChunkPos + Vector2I.Up, out Chunk neighborUp))
+            neighborUp.UpdateMesh();
+        if (ChunkManager.Chunks.TryGetValue(ChunkPos + Vector2I.Down, out Chunk neighborDown))
+            neighborDown.UpdateMesh();
+    }
+    
+    public void UpdateNeighborsImmediate()
+    {
+        if (ChunkManager.Chunks.TryGetValue(ChunkPos + Vector2I.Right, out Chunk neighborRight))
+            neighborRight.UpdateMeshImmediate();
+        if (ChunkManager.Chunks.TryGetValue(ChunkPos + Vector2I.Left, out Chunk neighborLeft))
+            neighborLeft.UpdateMeshImmediate();
+        if (ChunkManager.Chunks.TryGetValue(ChunkPos + Vector2I.Up, out Chunk neighborUp))
+            neighborUp.UpdateMeshImmediate();
+        if (ChunkManager.Chunks.TryGetValue(ChunkPos + Vector2I.Down, out Chunk neighborDown))
+            neighborDown.UpdateMeshImmediate();
+    }
+
     public void UpdateMeshImmediate()
     {
         if (_isWaiting) return;
