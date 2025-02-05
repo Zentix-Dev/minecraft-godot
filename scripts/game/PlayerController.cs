@@ -19,6 +19,8 @@ public partial class PlayerController : CharacterBody3D
 	private bool _gravityEnabled = false;
 	private bool _inputEnabled = false;
 
+	private bool _escaped;
+
 	public override void _EnterTree()
 	{
 		Input.SetMouseMode(Input.MouseModeEnum.Captured);
@@ -31,7 +33,25 @@ public partial class PlayerController : CharacterBody3D
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		if (!_inputEnabled) return;
+		if (@event is InputEventKey keyEvent)
+		{
+			if (keyEvent.Pressed && keyEvent.Keycode == Key.Escape)
+			{
+				Input.SetMouseMode(Input.MouseModeEnum.Visible);
+				_escaped = true;
+			}
+		}
+
+		if (@event is InputEventMouseButton mouseEvent)
+		{
+			if (mouseEvent.Pressed && _escaped)
+			{
+				_escaped = false;
+				Input.SetMouseMode(Input.MouseModeEnum.Captured);
+			}
+		}
+		
+		if (!_inputEnabled || _escaped) return;
 		if (@event is InputEventMouseMotion eventMouseMotion)
 		{
 			Vector3 rotation = Camera.Rotation;
