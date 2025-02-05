@@ -25,7 +25,7 @@ public partial class Chunk : MeshInstance3D
     private List<Vector3> _normals;
     private List<Vector2> _uvs;
 
-    private static Queue<Chunk> _updateQueue = new();
+    private static LinkedList<Chunk> _updateQueue = new();
     private static Chunk _currentUpdatingChunk;
     private static bool _isDone = true;
     private bool _isWaiting;
@@ -112,8 +112,10 @@ public partial class Chunk : MeshInstance3D
                 _currentUpdatingChunk.CreateMesh();
                 _currentUpdatingChunk = null;
             }
-            if (_updateQueue.TryDequeue(out _currentUpdatingChunk))
+            if (_updateQueue.Count > 0)
             {
+                _currentUpdatingChunk = _updateQueue.First!.Value;
+                _updateQueue.RemoveFirst();
                 _isDone = false;
                 _currentUpdatingChunk.UpdateMeshNow();
             }
@@ -153,10 +155,17 @@ public partial class Chunk : MeshInstance3D
         }).Start();
     }
 
+    public void UpdateMeshImmediate()
+    {
+        if (_isWaiting) return;
+        if (_isUpdating) _isWaiting = true;
+        _updateQueue.AddFirst(this);
+    }
+
     public void UpdateMesh()
     {
         if (_isWaiting) return;
         if (_isUpdating) _isWaiting = true;
-        _updateQueue.Enqueue(this);
+        _updateQueue.AddLast(this);
     }
 }
