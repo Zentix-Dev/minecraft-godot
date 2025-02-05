@@ -98,6 +98,12 @@ public partial class ChunkManager : Node3D
 
     public Chunk GetChunkAt(Vector3 worldPosition) => Chunks.GetValueOrDefault(GetChunkPosAt(worldPosition));
 
+    private void SetChunkVisible(Chunk chunk, bool visible)
+    {
+        chunk.Visible = visible;
+        chunk.CollisionShape.Disabled = !visible;
+    }
+    
     public override void _Process(double delta)
     {
         var chunkPosition = GetChunkPosAt(Viewer.GlobalPosition);
@@ -107,7 +113,7 @@ public partial class ChunkManager : Node3D
             for (int y = chunkPosition.Y - RenderDistance / 2; y < chunkPosition.Y + RenderDistance / 2; y++)
             {
                 if (Chunks.TryGetValue(new Vector2I(x, y), out Chunk existingChunk))
-                    existingChunk.Visible = true;
+                    SetChunkVisible(existingChunk, true);
                 else
                     BuildChunk(new Vector2I(x, y));
                 visibleChunks.Add(new Vector2I(x, y));
@@ -117,7 +123,7 @@ public partial class ChunkManager : Node3D
         {
             if (visibleChunks.Contains(pos))
                 continue;
-            chunk.Visible = false;
+            SetChunkVisible(chunk, false);
         }
         
         Chunk.UpdateMeshes();
