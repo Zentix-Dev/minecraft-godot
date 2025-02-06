@@ -11,6 +11,6 @@ public partial class ChunkDebugger : Label
 	public override void _Process(double delta)
 	{
 		Text =
-			$"Chunk: {ChunkManager.GetChunkPosAt(Player.GlobalPosition)}; Pos in chunk: {ChunkManager.GetPosInChunk(Player.GlobalPosition)}; Position: {Player.GlobalPosition}";
+			$"FPS: {Engine.GetFramesPerSecond()}; Chunk: {ChunkManager.GetChunkPosAt(Player.GlobalPosition)}; Pos in chunk: {ChunkManager.GetPosInChunk(Player.GlobalPosition)}; Position: {Player.GlobalPosition}";
 	}
 }
