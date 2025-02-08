@@ -8,6 +8,7 @@ public partial class BlockBreaker : RayCast3D
 {
     public override void _UnhandledInput(InputEvent @event)
     {
+        if (!IsColliding()) return;
         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left or MouseButton.Right } mouseButtonEvent)
         {
             bool isDestroy = mouseButtonEvent.ButtonIndex == MouseButton.Left;
