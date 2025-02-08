@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://y30mgtlucwio"]
+[gd_scene load_steps=18 format=3 uid="uid://y30mgtlucwio"]
 
 [ext_resource type="Script" path="res://scripts/worldgen/ChunkManager.cs" id="2_5mwg0"]
 [ext_resource type="PackedScene" uid="uid://wqof2vwfl0ua" path="res://scripts/worldgen/chunk.tscn" id="2_s5tm7"]
@@ -6,8 +6,10 @@
 [ext_resource type="Script" path="res://scripts/game/BlockBreaker.cs" id="5_cdg6q"]
 [ext_resource type="Script" path="res://scripts/game/PlayerController.cs" id="5_ooiqt"]
 [ext_resource type="Script" path="res://ChunkDebugger.cs" id="6_4y2if"]
-[ext_resource type="Script" path="res://EventTest.cs" id="6_gwgbe"]
 [ext_resource type="Texture2D" uid="uid://bm60c7jutb53k" path="res://crosshair.png" id="7_y5xew"]
+[ext_resource type="Script" path="res://EditorCameraSwitcher.cs" id="9_5f4xb"]
+[ext_resource type="PackedScene" uid="uid://d0uc2sukjk2jv" path="res://editor_camera.tscn" id="10_86qg6"]
+[ext_resource type="Script" path="res://scripts/game/CubeSelection.cs" id="10_jc8rt"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_enmal"]
 
@@ -38,6 +40,9 @@ size = Vector3(0.75, 1.9, 0.75)
 [sub_resource type="BoxMesh" id="BoxMesh_ebieq"]
 size = Vector3(0.75, 2, 0.75)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymarn"]
+shading_mode = 0
+
 [node name="Main" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -58,7 +63,8 @@ collision_layer = 2
 script = ExtResource("5_ooiqt")
 Camera = NodePath("Camera3D")
 Sensitivity = Vector2(0.013, 0.013)
-JumpVelocity = 7.0
+JumpVelocity = 8.0
+Weight = 2.5
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
@@ -72,12 +78,10 @@ mesh = SubResource("BoxMesh_ebieq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.63558, 0)
 current = true
 
-[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D"]
+[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D" node_paths=PackedStringArray("_selectionCube")]
 target_position = Vector3(0, 0, -5)
 script = ExtResource("5_cdg6q")
-
-[node name="TestEvent" type="Node" parent="Player"]
-script = ExtResource("6_gwgbe")
+_selectionCube = NodePath("../../../CubeSelection")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -112,5 +116,17 @@ offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("7_y5xew")
+
+[node name="EditorCameraSwitcher" type="Node3D" parent="." node_paths=PackedStringArray("Player", "ChunkManager", "Crosshair")]
+script = ExtResource("9_5f4xb")
+Player = NodePath("../Player")
+ChunkManager = NodePath("../ChunkBuilder")
+Crosshair = NodePath("../Control/TextureRect")
+EditorCameraScene = ExtResource("10_86qg6")
+
+[node name="CubeSelection" type="MeshInstance3D" parent="."]
+visible = false
+material_override = SubResource("StandardMaterial3D_ymarn")
+script = ExtResource("10_jc8rt")
 
 [connection signal="InitialChunksLoaded" from="ChunkBuilder" to="Player" method="OnChunksLoaded"]
