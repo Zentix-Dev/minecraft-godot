@@ -8,7 +8,14 @@ public partial class BlockBreaker : RayCast3D
 {
     [Export] private CubeSelection _selectionCube;
 
+    private bool _needsUpdate = false;
+
     private void UpdateBlockSelection()
+    {
+        _needsUpdate = true;
+    }
+
+    private void UpdateBlockSelectionNow()
     {
         Vector3 worldPosHit = (GetCollisionPoint() - GetCollisionNormal() * .05f).Round();
         _selectionCube.GlobalPosition = worldPosHit.Round();
@@ -28,7 +35,13 @@ public partial class BlockBreaker : RayCast3D
         chunk.UpdateMeshImmediate();
         CallDeferred(nameof(UpdateBlockSelection));
     }
-    
+
+    public override void _Process(double delta)
+    {
+        if (!_needsUpdate) return;
+        UpdateBlockSelectionNow();
+    }
+
     public override void _UnhandledInput(InputEvent @event)
     {
         _selectionCube.Visible = IsColliding();
@@ -36,7 +49,7 @@ public partial class BlockBreaker : RayCast3D
         if (!IsColliding()) return;
 
         if (@event is InputEventMouseMotion)
-            UpdateBlockSelection();
+           UpdateBlockSelection();
         
         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left or MouseButton.Right } mouseButtonEvent)
         {
