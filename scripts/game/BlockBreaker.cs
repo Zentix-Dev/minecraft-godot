@@ -6,9 +6,20 @@ namespace Minecraft.scripts.game;
 
 public partial class BlockBreaker : RayCast3D
 {
+    [Export] private CubeSelection _selectionCube;
+    
     public override void _UnhandledInput(InputEvent @event)
     {
+        _selectionCube.Visible = IsColliding();
+        
         if (!IsColliding()) return;
+
+        if (@event is InputEventMouseMotion eventMouseMotion)
+        {
+            Vector3 worldPosHit = (GetCollisionPoint() - GetCollisionNormal() * .05f).Round();
+            _selectionCube.GlobalPosition = worldPosHit.Round();
+        }
+        
         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left or MouseButton.Right } mouseButtonEvent)
         {
             bool isDestroy = mouseButtonEvent.ButtonIndex == MouseButton.Left;
