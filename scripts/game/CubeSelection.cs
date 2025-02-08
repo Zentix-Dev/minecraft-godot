@@ -4,7 +4,7 @@ namespace Minecraft.scripts.game;
 
 public partial class CubeSelection : MeshInstance3D
 {
-	private const float CubeScale = 1.01f;
+	private const float CubeScale = 1.0001f;
 	
 	public override void _Ready()
 	{
