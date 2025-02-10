@@ -19,6 +19,8 @@ public partial class StandardChunkBuilder : ChunkBuilder
     public int TerrainHeightMin;
     [Export]
     public int TerrainHeightMax;
+    [Export] 
+    public int WaterHeight;
     
     [ExportGroup("Noise Parameters"), Export]
     public Vector3 Offset;
@@ -47,6 +49,10 @@ public partial class StandardChunkBuilder : ChunkBuilder
             var worldPosition = new Vector2I(x + chunk.ChunkPos.X * Chunk.Size.X, z + chunk.ChunkPos.Y * Chunk.Size.Z);
             float height = Mathf.InverseLerp(-1, 1, noiseGenerator.GetNoise2D(worldPosition.X + Scale.X, worldPosition.Y * Scale.Y));
             int terrainHeight = Mathf.RoundToInt(Mathf.Lerp(TerrainHeightMin, TerrainHeightMax, height));
+            for (int y = 0; y < WaterHeight; y++)
+            {
+                chunk.SetBlock(new Vector3I(x, y, z), (ushort)Blocks.DefaultBlock.Water);
+            }
             for (int y = 0; y < terrainHeight; y++)
             {
                 if (y == terrainHeight - 1)
