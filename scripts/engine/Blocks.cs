@@ -5,7 +5,7 @@ namespace Minecraft.scripts.engine;
 public static class Blocks
 {
     public enum DefaultBlock {
-        Air, Stone, Dirt, Grass
+        Air, Stone, Dirt, Grass, Water
     }
 
     public enum BlockSide {
