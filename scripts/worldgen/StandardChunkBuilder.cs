@@ -49,10 +49,6 @@ public partial class StandardChunkBuilder : ChunkBuilder
             var worldPosition = new Vector2I(x + chunk.ChunkPos.X * Chunk.Size.X, z + chunk.ChunkPos.Y * Chunk.Size.Z);
             float height = Mathf.InverseLerp(-1, 1, noiseGenerator.GetNoise2D(worldPosition.X + Scale.X, worldPosition.Y * Scale.Y));
             int terrainHeight = Mathf.RoundToInt(Mathf.Lerp(TerrainHeightMin, TerrainHeightMax, height));
-            for (int y = 0; y < WaterHeight; y++)
-            {
-                chunk.SetBlock(new Vector3I(x, y, z), (ushort)Blocks.DefaultBlock.Water);
-            }
             for (int y = 0; y < terrainHeight; y++)
             {
                 if (y == terrainHeight - 1)
@@ -61,6 +57,11 @@ public partial class StandardChunkBuilder : ChunkBuilder
                     chunk.SetBlock(new Vector3I(x, y, z), (ushort)BottomBlock);
                 else
                     chunk.SetBlock(new Vector3I(x, y, z), (ushort)MiddleBlock);
+            }
+
+            for (int y = terrainHeight; y < WaterHeight; y++)
+            {
+                chunk.SetBlock(new Vector3I(x, y, z), (ushort)Blocks.DefaultBlock.Water);
             }
         }
     }
