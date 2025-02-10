@@ -104,10 +104,17 @@ public partial class Chunk : MeshInstance3D
         foreach (MeshUtils.FaceDirection direction in Enum.GetValues<MeshUtils.FaceDirection>())
         {
             Vector3I vector = MeshUtils.GetDirectionVector(direction);
-            if (!engine.Blocks.IsSolid(GetBlock(pos + vector)))
-                AddFace(direction, pos, block, _solidMesh);
-            if (GetBlock(pos + vector) == (ushort)engine.Blocks.DefaultBlock.Air)
-                AddFace(direction, pos, block, _transparentMesh);
+            if (engine.Blocks.IsTransparent(block))
+            {
+                GD.Print("Its transparent");
+                if (GetBlock(pos + vector) == (ushort)engine.Blocks.DefaultBlock.Air)
+                    AddFace(direction, pos, block, _transparentMesh);
+            }
+            else
+            {
+                if (!engine.Blocks.IsSolid(GetBlock(pos + vector)))
+                    AddFace(direction, pos, block, _solidMesh);
+            }
         }
     }
 
