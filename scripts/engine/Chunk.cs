@@ -13,6 +13,7 @@ public partial class Chunk : MeshInstance3D
     public ushort[,,] Blocks = new ushort[Size.X, Size.Y, Size.Z];
 
     [Export] public CollisionShape3D CollisionShape;
+    [Export] private MeshInstance3D _transparentMeshInstance;
     
     public ChunkManager ChunkManager;
     public Vector2I ChunkPos;
@@ -20,10 +21,8 @@ public partial class Chunk : MeshInstance3D
     [Signal]
     public delegate void ChunkBuildEventHandler();
 
-    private List<Vector3> _vertices;
-    private List<int> _triangles;
-    private List<Vector3> _normals;
-    private List<Vector2> _uvs;
+    private MeshArrays _solidMesh;
+    private MeshArrays _transparentMesh;
 
     private static LinkedList<Chunk> _updateQueue = new();
     private static Chunk _currentUpdatingChunk;
@@ -33,10 +32,10 @@ public partial class Chunk : MeshInstance3D
 
     private bool _isBuilt;
 
-    private void AddFace(MeshUtils.FaceDirection direction, Vector3I position, ushort block)
+    private void AddFace(MeshUtils.FaceDirection direction, Vector3I position, ushort block, MeshArrays mesh)
     {
         int textureIndex = engine.Blocks.GetTextureIndex(block, direction);
-        MeshUtils.CreateFace(direction, position, textureIndex, _vertices, _triangles, _normals, _uvs);
+        MeshUtils.CreateFace(direction, position, textureIndex, mesh.Vertices, mesh.Triangles, mesh.Normals, mesh.Uvs);
     }
 
     private void CreateCollider()
@@ -47,7 +46,11 @@ public partial class Chunk : MeshInstance3D
     private void CreateMesh()
     {
         Mesh = null;
-        Mesh = MeshUtils.CreateArrayMesh(_vertices.ToArray(), _triangles.ToArray(), _uvs.ToArray(), _normals.ToArray());
+        Mesh = MeshUtils.CreateArrayMesh(_solidMesh.Vertices.ToArray(), _solidMesh.Triangles.ToArray(), _solidMesh.Uvs.ToArray(), _solidMesh.Normals.ToArray());
+
+        _transparentMeshInstance.Mesh = null;
+        _transparentMeshInstance.Mesh = MeshUtils.CreateArrayMesh(_transparentMesh.Vertices.ToArray(), _transparentMesh.Triangles.ToArray(), _transparentMesh.Uvs.ToArray(), _transparentMesh.Normals.ToArray());
+        
         CreateCollider();
 
         if (!_isBuilt)
@@ -99,7 +102,9 @@ public partial class Chunk : MeshInstance3D
         {
             Vector3I vector = MeshUtils.GetDirectionVector(direction);
             if (!engine.Blocks.IsSolid(GetBlock(pos + vector)))
-                AddFace(direction, pos, block);
+                AddFace(direction, pos, block, _solidMesh);
+            if (GetBlock(pos + vector) == (ushort)engine.Blocks.DefaultBlock.Air)
+                AddFace(direction, pos, block, _transparentMesh);
         }
     }
 
@@ -137,11 +142,9 @@ public partial class Chunk : MeshInstance3D
     {
         _isUpdating = true;
         _isWaiting = false;
-        
-        _vertices = new List<Vector3>();
-        _triangles = new List<int>();
-        _normals = new List<Vector3>();
-        _uvs = new List<Vector2>();
+
+        _transparentMesh = new MeshArrays();
+        _solidMesh = new MeshArrays();
 
         new Thread(() =>
         {
