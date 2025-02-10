@@ -109,6 +109,8 @@ public partial class Chunk : MeshInstance3D
             }
             else
             {
+                if (!engine.Blocks.IsSolid(block))
+                    return;
                 if (!engine.Blocks.IsSolid(GetBlock(pos + vector)))
                     AddFace(direction, pos, block, _solidMesh);
             }
