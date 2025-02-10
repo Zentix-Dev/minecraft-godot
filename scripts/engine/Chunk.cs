@@ -49,7 +49,10 @@ public partial class Chunk : MeshInstance3D
         Mesh = MeshUtils.CreateArrayMesh(_solidMesh.Vertices.ToArray(), _solidMesh.Triangles.ToArray(), _solidMesh.Uvs.ToArray(), _solidMesh.Normals.ToArray());
 
         _transparentMeshInstance.Mesh = null;
-        _transparentMeshInstance.Mesh = MeshUtils.CreateArrayMesh(_transparentMesh.Vertices.ToArray(), _transparentMesh.Triangles.ToArray(), _transparentMesh.Uvs.ToArray(), _transparentMesh.Normals.ToArray());
+        if (_transparentMesh.Vertices.Count > 0)
+        {
+            _transparentMeshInstance.Mesh = MeshUtils.CreateArrayMesh(_transparentMesh.Vertices.ToArray(), _transparentMesh.Triangles.ToArray(), _transparentMesh.Uvs.ToArray(), _transparentMesh.Normals.ToArray());
+        }
         
         CreateCollider();
 
