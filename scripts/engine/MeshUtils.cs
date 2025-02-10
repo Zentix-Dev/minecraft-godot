@@ -46,6 +46,7 @@ public static class MeshUtils
 
 	public static Vector2[] GetTextureUVs(int textureIndex)
 	{
+		//TODO: Fix uv map issue with water block
 		float width = (float)TextureWidth / TextureColumns / TextureWidth;
 		float height = (float)TextureHeight / TextureRows / TextureHeight;
 		float x = textureIndex % TextureColumns * width;
