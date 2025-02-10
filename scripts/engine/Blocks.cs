@@ -14,7 +14,7 @@ public static class Blocks
 
     public static bool IsSolid(ushort block)
     {
-        return block != (ushort) DefaultBlock.Air;
+        return block != (ushort) DefaultBlock.Air && block != (ushort) DefaultBlock.Water;
     }
 
     public static int GetTextureIndex(ushort block, MeshUtils.FaceDirection direction)
