@@ -45,6 +45,7 @@ public static class Blocks
                 BlockSide.Down => 1,
                 _ => throw new ArgumentOutOfRangeException()
             },
+            4 => 4,
             _ => -1
         };
     }
