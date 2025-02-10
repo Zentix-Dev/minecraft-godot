@@ -98,15 +98,12 @@ public partial class Chunk : MeshInstance3D
     private void UpdateCube(Vector3I pos)
     {
         ushort block = GetBlock(pos);
-        if (!engine.Blocks.IsSolid(block))
-            return;
         // TODO: Fix GetValues memory performance issues
         foreach (MeshUtils.FaceDirection direction in Enum.GetValues<MeshUtils.FaceDirection>())
         {
             Vector3I vector = MeshUtils.GetDirectionVector(direction);
             if (engine.Blocks.IsTransparent(block))
             {
-                GD.Print("Its transparent");
                 if (GetBlock(pos + vector) == (ushort)engine.Blocks.DefaultBlock.Air)
                     AddFace(direction, pos, block, _transparentMesh);
             }
