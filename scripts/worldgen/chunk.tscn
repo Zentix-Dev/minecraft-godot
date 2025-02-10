@@ -3,10 +3,11 @@
 [ext_resource type="Material" uid="uid://c0huhvrpn5bky" path="res://assets/cube_material.tres" id="1_xyraa"]
 [ext_resource type="Script" path="res://scripts/engine/Chunk.cs" id="2_2unpd"]
 
-[node name="Chunk" type="MeshInstance3D" node_paths=PackedStringArray("CollisionShape")]
+[node name="Chunk" type="MeshInstance3D" node_paths=PackedStringArray("CollisionShape", "_transparentMeshInstance")]
 material_override = ExtResource("1_xyraa")
 script = ExtResource("2_2unpd")
 CollisionShape = NodePath("StaticBody3D/CollisionShape3D")
+_transparentMeshInstance = NodePath("Transparent")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
