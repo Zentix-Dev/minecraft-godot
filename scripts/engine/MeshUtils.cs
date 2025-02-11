@@ -50,7 +50,7 @@ public static class MeshUtils
 		float width = (float)TextureWidth / TextureColumns / TextureWidth;
 		float height = (float)TextureHeight / TextureRows / TextureHeight;
 		float x = textureIndex % TextureColumns * width;
-		float y = textureIndex / TextureColumns * width;
+		float y = Mathf.Floor(textureIndex / (float)TextureColumns) * height;
 		return new Vector2[]
 		{
 			new(x + width, y),
