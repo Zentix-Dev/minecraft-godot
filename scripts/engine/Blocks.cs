@@ -5,7 +5,7 @@ namespace Minecraft.scripts.engine;
 public static class Blocks
 {
     public enum DefaultBlock {
-        Air, Stone, Dirt, Grass, Water
+        Air, Stone, Dirt, Grass, Water, Log
     }
 
     public enum BlockSide {
@@ -46,6 +46,13 @@ public static class Blocks
                 _ => throw new ArgumentOutOfRangeException()
             },
             4 => 4,
+            5 => side switch
+            {
+                BlockSide.Up => 6,
+                BlockSide.Down => 6,
+                BlockSide.Side => 5,
+                _ => throw new ArgumentOutOfRangeException()
+            },
             _ => -1
         };
     }
