@@ -65,7 +65,7 @@ public partial class StandardChunkBuilder : ChunkBuilder
             }
 
             if (terrainHeight < WaterHeight)
-                return;
+                continue;
 
             if (GD.Randf() > 1 - 1 / 1000f)
             {
