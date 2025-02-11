@@ -6,8 +6,8 @@
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_olcqw"]
 transparency = 4
-albedo_color = Color(1, 1, 1, 0.52549)
 albedo_texture = ExtResource("3_8l58n")
+texture_filter = 0
 
 [node name="Chunk" type="MeshInstance3D" node_paths=PackedStringArray("CollisionShape", "_transparentMeshInstance")]
 material_override = ExtResource("1_xyraa")
