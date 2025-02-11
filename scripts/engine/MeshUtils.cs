@@ -73,10 +73,10 @@ public static class MeshUtils
 	            // TODO: Fix list performance issues
 	            var verts = new List<Vector3>
 	            {
-		            new Vector3(0.5f, 0.5f, 0.5f * dir) + offset,
+		            new Vector3(0.5f, textureIndex == 4 ? 0.4f : 0.5f, 0.5f * dir) + offset,
 		            new Vector3(0.5f, -0.5f, 0.5f * dir) + offset,
 		            new Vector3(-0.5f, -0.5f, 0.5f * dir) + offset,
-		            new Vector3(-0.5f, 0.5f, 0.5f * dir) + offset
+		            new Vector3(-0.5f, textureIndex == 4 ? 0.4f : 0.5f, 0.5f * dir) + offset
 	            };
 	            var normal = new Vector3(0, 0, dir);
 	            // TODO: Fix AddRange performance issues
@@ -96,10 +96,10 @@ public static class MeshUtils
 	            int dir = direction == FaceDirection.East ? 1 : -1;
 	            var verts = new List<Vector3>
 	            {
-		            new Vector3(0.5f * dir, 0.5f, -0.5f) + offset,
+		            new Vector3(0.5f * dir, textureIndex == 4 ? 0.4f : 0.5f, -0.5f) + offset,
 		            new Vector3(0.5f * dir, -0.5f, -0.5f) + offset,
 		            new Vector3(0.5f * dir, -0.5f, 0.5f) + offset,
-		            new Vector3(0.5f * dir, 0.5f, 0.5f) + offset
+		            new Vector3(0.5f * dir, textureIndex == 4 ? 0.4f : 0.5f, 0.5f) + offset
 	            };
 	            var normal = new Vector3(dir, 0, 0);
 	            normals.AddRange(new[] { normal, normal, normal, normal });
