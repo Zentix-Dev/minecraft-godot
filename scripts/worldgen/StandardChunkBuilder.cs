@@ -64,6 +64,9 @@ public partial class StandardChunkBuilder : ChunkBuilder
                 chunk.SetBlock(new Vector3I(x, y, z), (ushort)Blocks.DefaultBlock.Water);
             }
 
+            if (terrainHeight < WaterHeight)
+                return;
+
             if (GD.Randf() > 1 - 1 / 1000f)
             {
                 int treeHeight = GD.RandRange(4, 7);
