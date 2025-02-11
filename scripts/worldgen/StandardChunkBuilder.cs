@@ -74,6 +74,13 @@ public partial class StandardChunkBuilder : ChunkBuilder
                 {
                     chunk.SetBlock(new Vector3I(x, y, z), (ushort) Blocks.DefaultBlock.Log);
                 }
+
+                for (int leaveX = x - 3; leaveX < x + 3; leaveX++)
+                for (int leaveZ = z - 3; leaveZ < z + 3; leaveZ++)
+                for (int leaveY = terrainHeight + treeHeight; leaveY < terrainHeight + treeHeight + 3; leaveY++)
+                {
+                    chunk.SetBlock(new Vector3I(leaveX, leaveY, leaveZ), (ushort) Blocks.DefaultBlock.Leaves);
+                }
             }
         }
     }
