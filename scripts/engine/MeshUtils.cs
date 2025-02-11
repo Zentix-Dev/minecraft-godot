@@ -118,10 +118,10 @@ public static class MeshUtils
 	            int dir = direction == FaceDirection.Up ? 1 : -1;
 	            var verts = new List<Vector3>
 	            {
-		            new Vector3(-0.5f, textureIndex == 4 ? 0.4f : 0.5f * dir, 0.5f) + offset,
-		            new Vector3(-0.5f, textureIndex == 4 ? 0.4f : 0.5f * dir, -0.5f) + offset,
-		            new Vector3(0.5f, textureIndex == 4 ? 0.4f : 0.5f * dir, -0.5f) + offset,
-		            new Vector3(0.5f, textureIndex == 4 ? 0.4f : 0.5f * dir, 0.5f) + offset
+		            new Vector3(-0.5f, (textureIndex == 4 ? 0.4f : 0.5f) * dir, 0.5f) + offset,
+		            new Vector3(-0.5f, (textureIndex == 4 ? 0.4f : 0.5f) * dir, -0.5f) + offset,
+		            new Vector3(0.5f, (textureIndex == 4 ? 0.4f : 0.5f) * dir, -0.5f) + offset,
+		            new Vector3(0.5f, (textureIndex == 4 ? 0.4f : 0.5f) * dir, 0.5f) + offset
 	            };
 	            var normal = new Vector3(0, dir, 0);
 	            normals.AddRange(new[] { normal, normal, normal, normal });
