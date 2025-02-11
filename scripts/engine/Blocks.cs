@@ -5,7 +5,7 @@ namespace Minecraft.scripts.engine;
 public static class Blocks
 {
     public enum DefaultBlock {
-        Air, Stone, Dirt, Grass, Water, Log
+        Air, Stone, Dirt, Grass, Water, Log, Leaves
     }
 
     public enum BlockSide {
@@ -19,7 +19,7 @@ public static class Blocks
 
     public static bool IsTransparent(ushort block)
     {
-        return block == (ushort)DefaultBlock.Water;
+        return block is (ushort)DefaultBlock.Water or (ushort)DefaultBlock.Leaves;
     }
 
     public static int GetTextureIndex(ushort block, MeshUtils.FaceDirection direction)
@@ -53,6 +53,7 @@ public static class Blocks
                 BlockSide.Side => 5,
                 _ => throw new ArgumentOutOfRangeException()
             },
+            6 => 7,
             _ => -1
         };
     }
