@@ -30,6 +30,49 @@ public partial class StandardChunkBuilder : ChunkBuilder
     [Export] public int Octaves = 10;
     [Export] public float Lacunarity = 2f;
     [Export] public string Seed = "0";
+
+    private static Chunk _currentChunk;
+    private static Vector3I _currentOffset;
+    
+    private void PlaceTreeBlock(Vector3I offset, Blocks.DefaultBlock block)
+    {
+        _currentChunk.SetBlock(_currentOffset + offset, (ushort)block);
+    }
+
+    private void GenerateTree(Vector3I position)
+    {
+        int treeHeight = GD.RandRange(4, 7);
+
+        _currentOffset = position + new Vector3I(0, treeHeight - 2, 0);
+
+        for (int x = -2; x < 3; x++)
+        for (int z = -2; z < 3; z++)
+        for (int y = 0; y < 2; y++)
+        {
+            if (x is -2 or 2 && z is -2 or 2 && GD.Randf() > .5f)
+                continue;
+            PlaceTreeBlock(new Vector3I(x, y, z), Blocks.DefaultBlock.Leaves);
+        }
+
+        _currentOffset += new Vector3I(0, 2, 0);
+
+        for (int x = -1; x < 2; x++)
+        for (int z = -1; z < 2; z++)
+        {
+            int height = x is -1 or 1 && z is -1 or 2 ? GD.RandRange(0, 2) : 2;
+            for (int y = 0; y < height; y++)
+            {
+                PlaceTreeBlock(new Vector3I(x, y, z), Blocks.DefaultBlock.Leaves);
+            }
+        }
+
+        _currentOffset = position;
+        
+        for (int y = 0; y < treeHeight; y++)
+        {
+            PlaceTreeBlock(new Vector3I(0, y, 0), Blocks.DefaultBlock.Log);
+        }
+    }
     
     public override void GenerateChunk(Chunk chunk)
     {
@@ -67,20 +110,11 @@ public partial class StandardChunkBuilder : ChunkBuilder
             if (terrainHeight < WaterHeight)
                 continue;
 
+            _currentChunk = chunk;
+
             if (GD.Randf() > 1 - 1 / 1000f)
             {
-                int treeHeight = GD.RandRange(4, 7);
-                for (int y = terrainHeight; y < terrainHeight + treeHeight; y++)
-                {
-                    chunk.SetBlock(new Vector3I(x, y, z), (ushort) Blocks.DefaultBlock.Log);
-                }
-
-                for (int leaveX = x - 3; leaveX < x + 3; leaveX++)
-                for (int leaveZ = z - 3; leaveZ < z + 3; leaveZ++)
-                for (int leaveY = terrainHeight + treeHeight; leaveY < terrainHeight + treeHeight + 3; leaveY++)
-                {
-                    chunk.SetBlock(new Vector3I(leaveX, leaveY, leaveZ), (ushort) Blocks.DefaultBlock.Leaves);
-                }
+                GenerateTree(new Vector3I(x, terrainHeight, z));
             }
         }
     }
