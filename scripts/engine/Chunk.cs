@@ -23,6 +23,8 @@ public partial class Chunk : MeshInstance3D
 
     private MeshArrays _solidMesh;
     private MeshArrays _transparentMesh;
+    
+    private static Dictionary<Vector2I, Dictionary<Vector3I, ushort>> _ungeneratedBlocks = new();
 
     private static LinkedList<Chunk> _updateQueue = new();
     private static Chunk _currentUpdatingChunk;
@@ -89,22 +91,45 @@ public partial class Chunk : MeshInstance3D
         return Blocks[pos.X, pos.Y, pos.Z];
     }
 
+    private void AddUngeneratedBlock(Vector2I chunkPos, Vector3I pos, ushort block)
+    {
+        if (!_ungeneratedBlocks.ContainsKey(chunkPos))
+            _ungeneratedBlocks[chunkPos] = new Dictionary<Vector3I, ushort>();
+        var chunkDictionary = _ungeneratedBlocks[chunkPos];
+        chunkDictionary[pos] = block;
+    }
+
     public void SetBlock(Vector3I pos, ushort block)
     {
         if (pos.Y >= Size.Y || pos.Y < 0)
             return;
         if (pos.X >= Size.X)
+        {
             if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Right, out Chunk neighbor) == true)
                 neighbor.SetBlock(pos - new Vector3I(Size.X, 0, 0), block);
+            else
+                AddUngeneratedBlock(ChunkPos + Vector2I.Right, pos - new Vector3I(Size.X, 0, 0), block);
+        }
         if (pos.Z >= Size.Z)
+        {
             if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Down, out Chunk neighbor) == true)
                 neighbor.SetBlock(pos - new Vector3I(0, 0, Size.Z), block);
+            else
+                AddUngeneratedBlock(ChunkPos + Vector2I.Down, pos - new Vector3I(0, 0, Size.Z), block);
+        }
         if (pos.X < 0)
+        {
             if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Left, out Chunk neighbor) == true)
                 neighbor.SetBlock(pos + new Vector3I(Size.X, 0, 0), block);
+            else
+                AddUngeneratedBlock(ChunkPos + Vector2I.Left, pos + new Vector3I(Size.X, 0, 0), block);
+        }
         if (pos.Z < 0)
+        {
             if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Up, out Chunk neighbor) == true)
                 neighbor.SetBlock(pos + new Vector3I(0, 0, Size.Z), block);
+            AddUngeneratedBlock(ChunkPos + Vector2I.Up, pos + new Vector3I(0, 0, Size.Z), block);
+        }
         
         Blocks[pos.X, pos.Y, pos.Z] = block;
     }
