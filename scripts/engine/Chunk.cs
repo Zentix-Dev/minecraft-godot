@@ -86,8 +86,6 @@ public partial class Chunk : MeshInstance3D
             if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Up, out Chunk neighbor) == true)
                 return neighbor.GetBlock(pos + new Vector3I(0, 0, Size.Z));
         
-        if (pos.X >= Size.X || pos.Z >= Size.Z || pos.X < 0 || pos.Z < 0)
-            return 0;
         return Blocks[pos.X, pos.Y, pos.Z];
     }
 
