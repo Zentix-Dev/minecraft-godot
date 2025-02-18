@@ -22,6 +22,11 @@ public static class Blocks
         return block is (ushort)DefaultBlock.Water or (ushort)DefaultBlock.Leaves;
     }
 
+    public static bool IsColliding(ushort block)
+    {
+        return block is not ((ushort)DefaultBlock.Water or (ushort)DefaultBlock.Air);
+    }
+
     public static int GetTextureIndex(ushort block, MeshUtils.FaceDirection direction)
     {
         BlockSide side = direction switch
