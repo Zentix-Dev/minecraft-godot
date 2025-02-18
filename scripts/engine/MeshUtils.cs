@@ -143,7 +143,9 @@ public static class MeshUtils
 	        indices.AddRange(new[]
 	        {
 		        0 + arrayOffset, 1 + arrayOffset, 2 + arrayOffset,
-		        2 + arrayOffset, 3 + arrayOffset, 0 + arrayOffset
+		        2 + arrayOffset, 3 + arrayOffset, 0 + arrayOffset,
+		        2 + arrayOffset, 1 + arrayOffset, 0 + arrayOffset,
+		        0 + arrayOffset, 3 + arrayOffset, 2 + arrayOffset
 	        });
         }
         else
@@ -151,9 +153,7 @@ public static class MeshUtils
 	        indices.AddRange(new[]
 	        {
 		        0 + arrayOffset, 1 + arrayOffset, 2 + arrayOffset,
-		        2 + arrayOffset, 3 + arrayOffset, 0 + arrayOffset,
-		        2 + arrayOffset, 1 + arrayOffset, 0 + arrayOffset,
-		        0 + arrayOffset, 3 + arrayOffset, 2 + arrayOffset
+		        2 + arrayOffset, 3 + arrayOffset, 0 + arrayOffset
 	        });
         }
 
