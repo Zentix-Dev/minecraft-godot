@@ -85,6 +85,7 @@ public partial class Chunk : MeshInstance3D
         if (pos.Z < 0)
             if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Up, out Chunk neighbor) == true)
                 return neighbor.GetBlock(pos + new Vector3I(0, 0, Size.Z));
+        
         if (pos.X >= Size.X || pos.Z >= Size.Z || pos.X < 0 || pos.Z < 0)
             return 0;
         return Blocks[pos.X, pos.Y, pos.Z];
@@ -92,8 +93,21 @@ public partial class Chunk : MeshInstance3D
 
     public void SetBlock(Vector3I pos, ushort block)
     {
-        if (pos.Y >= Size.Y || pos.Y < 0 || pos.X >= Size.X || pos.X < 0 || pos.Z >= Size.Z || pos.Z < 0)
+        if (pos.Y >= Size.Y || pos.Y < 0)
             return;
+        if (pos.X >= Size.X)
+            if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Right, out Chunk neighbor) == true)
+                neighbor.SetBlock(pos - new Vector3I(Size.X, 0, 0), block);
+        if (pos.Z >= Size.Z)
+            if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Down, out Chunk neighbor) == true)
+                neighbor.SetBlock(pos - new Vector3I(0, 0, Size.Z), block);
+        if (pos.X < 0)
+            if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Left, out Chunk neighbor) == true)
+                neighbor.SetBlock(pos + new Vector3I(Size.X, 0, 0), block);
+        if (pos.Z < 0)
+            if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Up, out Chunk neighbor) == true)
+                neighbor.SetBlock(pos + new Vector3I(0, 0, Size.Z), block);
+        
         Blocks[pos.X, pos.Y, pos.Z] = block;
     }
 
