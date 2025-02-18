@@ -99,6 +99,11 @@ public partial class Chunk : MeshInstance3D
         chunkDictionary[pos] = block;
     }
 
+    public Dictionary<Vector3I, ushort> GetUngeneratedBlocks()
+    {
+        return _ungeneratedBlocks.GetValueOrDefault(ChunkPos);
+    }
+
     public void SetBlock(Vector3I pos, ushort block)
     {
         if (pos.Y >= Size.Y || pos.Y < 0)
