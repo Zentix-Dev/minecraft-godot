@@ -32,6 +32,8 @@ public partial class Chunk : MeshInstance3D
 
     private bool _isBuilt;
 
+    private readonly MeshUtils.FaceDirection[] _faceDirections = Enum.GetValues<MeshUtils.FaceDirection>();
+
     private void AddFace(MeshUtils.FaceDirection direction, Vector3I position, ushort block, MeshArrays mesh)
     {
         int textureIndex = engine.Blocks.GetTextureIndex(block, direction);
@@ -98,8 +100,7 @@ public partial class Chunk : MeshInstance3D
     private void UpdateCube(Vector3I pos)
     {
         ushort block = GetBlock(pos);
-        // TODO: Fix GetValues memory performance issues
-        foreach (MeshUtils.FaceDirection direction in Enum.GetValues<MeshUtils.FaceDirection>())
+        foreach (MeshUtils.FaceDirection direction in _faceDirections)
         {
             Vector3I vector = MeshUtils.GetDirectionVector(direction);
             if (engine.Blocks.IsTransparent(block))
