@@ -117,5 +117,7 @@ public partial class StandardChunkBuilder : ChunkBuilder
                 GenerateTree(new Vector3I(x, terrainHeight, z));
             }
         }
+        
+        PlaceUngeneratedBlocks(chunk);
     }
 }
