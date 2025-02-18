@@ -63,6 +63,7 @@ public static class MeshUtils
 	public static void CreateFace(FaceDirection direction, Vector3 offset, int textureIndex, List<Vector3> vertices, List<int> indices, List<Vector3> normals, List<Vector2> uvs)
     {
         int arrayOffset = vertices.Count;
+        bool doubleSided = textureIndex == Blocks.GetTextureIndex((ushort)Blocks.DefaultBlock.Water, direction); // Water should be double sided
 
         switch (direction)
         {
@@ -137,11 +138,24 @@ public static class MeshUtils
 	            throw new ArgumentOutOfRangeException();
         }
 
-        indices.AddRange(new[]
+        if (doubleSided)
         {
-            0 + arrayOffset, 1 + arrayOffset, 2 + arrayOffset,
-            2 + arrayOffset, 3 + arrayOffset, 0 + arrayOffset
-        });
+	        indices.AddRange(new[]
+	        {
+		        0 + arrayOffset, 1 + arrayOffset, 2 + arrayOffset,
+		        2 + arrayOffset, 3 + arrayOffset, 0 + arrayOffset
+	        });
+        }
+        else
+        {
+	        indices.AddRange(new[]
+	        {
+		        0 + arrayOffset, 1 + arrayOffset, 2 + arrayOffset,
+		        2 + arrayOffset, 3 + arrayOffset, 0 + arrayOffset,
+		        2 + arrayOffset, 1 + arrayOffset, 0 + arrayOffset,
+		        0 + arrayOffset, 3 + arrayOffset, 2 + arrayOffset
+	        });
+        }
 
         var uvMappings = GetTextureUVs(textureIndex);
         uvs.AddRange(uvMappings);
