@@ -97,7 +97,8 @@ public partial class Chunk : MeshInstance3D
     {
         int textureIndex = engine.Blocks.GetTextureIndex(block, direction);
         MeshUtils.CreateFace(direction, position, textureIndex, mesh.Vertices, mesh.Triangles, mesh.Normals, mesh.Uvs);
-        AddCollisionFace(direction, position);
+        if (engine.Blocks.IsColliding(block))
+            AddCollisionFace(direction, position);
     }
 
     private void CreateCollider()
