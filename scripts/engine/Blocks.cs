@@ -14,7 +14,7 @@ public static class Blocks
 
     public static bool IsSolid(ushort block)
     {
-        return block != (ushort) DefaultBlock.Air && block != (ushort) DefaultBlock.Water;
+        return block is not ((ushort) DefaultBlock.Air or (ushort) DefaultBlock.Water or (ushort) DefaultBlock.Leaves);
     }
 
     public static bool IsTransparent(ushort block)
