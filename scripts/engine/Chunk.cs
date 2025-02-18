@@ -119,6 +119,7 @@ public partial class Chunk : MeshInstance3D
                 neighbor.SetBlock(pos - new Vector3I(Size.X, 0, 0), block);
             else
                 AddUngeneratedBlock(ChunkPos + Vector2I.Right, pos - new Vector3I(Size.X, 0, 0), block);
+            return;
         }
         if (pos.Z >= Size.Z)
         {
@@ -126,6 +127,7 @@ public partial class Chunk : MeshInstance3D
                 neighbor.SetBlock(pos - new Vector3I(0, 0, Size.Z), block);
             else
                 AddUngeneratedBlock(ChunkPos + Vector2I.Down, pos - new Vector3I(0, 0, Size.Z), block);
+            return;
         }
         if (pos.X < 0)
         {
@@ -133,12 +135,14 @@ public partial class Chunk : MeshInstance3D
                 neighbor.SetBlock(pos + new Vector3I(Size.X, 0, 0), block);
             else
                 AddUngeneratedBlock(ChunkPos + Vector2I.Left, pos + new Vector3I(Size.X, 0, 0), block);
+            return;
         }
         if (pos.Z < 0)
         {
             if (ChunkManager?.Chunks.TryGetValue(ChunkPos + Vector2I.Up, out Chunk neighbor) == true)
                 neighbor.SetBlock(pos + new Vector3I(0, 0, Size.Z), block);
             AddUngeneratedBlock(ChunkPos + Vector2I.Up, pos + new Vector3I(0, 0, Size.Z), block);
+            return;
         }
         
         Blocks[pos.X, pos.Y, pos.Z] = block;
