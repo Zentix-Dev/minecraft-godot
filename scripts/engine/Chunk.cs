@@ -105,7 +105,10 @@ public partial class Chunk : MeshInstance3D
             Vector3I vector = MeshUtils.GetDirectionVector(direction);
             if (engine.Blocks.IsTransparent(block))
             {
-                if (GetBlock(pos + vector) == (ushort)engine.Blocks.DefaultBlock.Air)
+                var neighborBlock = GetBlock(pos + vector);
+                if (neighborBlock == (ushort)engine.Blocks.DefaultBlock.Air ||
+                    (block == (ushort)engine.Blocks.DefaultBlock.Leaves &&
+                     neighborBlock == (ushort)engine.Blocks.DefaultBlock.Leaves))
                     AddFace(direction, pos, block, _transparentMesh);
             }
             else
