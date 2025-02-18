@@ -23,6 +23,8 @@ public partial class Chunk : MeshInstance3D
 
     private MeshArrays _solidMesh;
     private MeshArrays _transparentMesh;
+
+    private List<Vector3> _collisionFaces;
     
     private static Dictionary<Vector2I, Dictionary<Vector3I, ushort>> _ungeneratedBlocks = new();
 
@@ -36,15 +38,73 @@ public partial class Chunk : MeshInstance3D
 
     private readonly MeshUtils.FaceDirection[] _faceDirections = Enum.GetValues<MeshUtils.FaceDirection>();
 
+    private void AddCollisionFace(MeshUtils.FaceDirection direction, Vector3I position)
+    {
+        List<Vector3> verts = null;
+        switch (direction)
+        {
+            case MeshUtils.FaceDirection.North:
+            case MeshUtils.FaceDirection.South:
+            {
+                int dir = direction == MeshUtils.FaceDirection.North ? 1 : -1;
+                verts = new List<Vector3>
+                {
+                    new Vector3(0.5f, 0.5f, 0.5f * dir) + position,
+                    new Vector3(0.5f, -0.5f, 0.5f * dir) + position,
+                    new Vector3(-0.5f, -0.5f, 0.5f * dir) + position,
+                    new Vector3(-0.5f, 0.5f, 0.5f * dir) + position
+                };
+                break;
+            }
+            case MeshUtils.FaceDirection.East:
+            case MeshUtils.FaceDirection.West:
+            {
+                int dir = direction == MeshUtils.FaceDirection.East ? 1 : -1;
+                verts = new List<Vector3>
+                {
+                    new Vector3(0.5f * dir, 0.5f, -0.5f) + position,
+                    new Vector3(0.5f * dir, -0.5f, -0.5f) + position,
+                    new Vector3(0.5f * dir, -0.5f, 0.5f) + position,
+                    new Vector3(0.5f * dir, 0.5f, 0.5f) + position
+                };
+                break;
+            }
+            case MeshUtils.FaceDirection.Up:
+            case MeshUtils.FaceDirection.Down:
+            {
+                int dir = direction == MeshUtils.FaceDirection.Up ? 1 : -1;
+                verts = new List<Vector3>
+                {
+                    new Vector3(-0.5f, 0.5f * dir, 0.5f) + position,
+                    new Vector3(-0.5f, 0.5f * dir, -0.5f) + position,
+                    new Vector3(0.5f, 0.5f * dir, -0.5f) + position,
+                    new Vector3(0.5f, 0.5f * dir, 0.5f) + position
+                };
+                break;
+            }
+        }
+        
+        _collisionFaces.Add(verts![0]);
+        _collisionFaces.Add(verts[1]);
+        _collisionFaces.Add(verts[2]);
+                
+        _collisionFaces.Add(verts[2]);
+        _collisionFaces.Add(verts[3]);
+        _collisionFaces.Add(verts[0]);
+    }
+
     private void AddFace(MeshUtils.FaceDirection direction, Vector3I position, ushort block, MeshArrays mesh)
     {
         int textureIndex = engine.Blocks.GetTextureIndex(block, direction);
         MeshUtils.CreateFace(direction, position, textureIndex, mesh.Vertices, mesh.Triangles, mesh.Normals, mesh.Uvs);
+        AddCollisionFace(direction, position);
     }
 
     private void CreateCollider()
     {
-        CollisionShape.Shape = Mesh.CreateTrimeshShape();
+        var shape = new ConcavePolygonShape3D();
+        shape.SetFaces(_collisionFaces.ToArray());
+        CollisionShape.Shape = shape;
     }
 
     private void CreateMesh()
@@ -212,6 +272,7 @@ public partial class Chunk : MeshInstance3D
 
         _transparentMesh = new MeshArrays();
         _solidMesh = new MeshArrays();
+        _collisionFaces = new List<Vector3>();
 
         new Thread(() =>
         {
