@@ -104,6 +104,11 @@ public partial class Chunk : MeshInstance3D
         return _ungeneratedBlocks.GetValueOrDefault(ChunkPos);
     }
 
+    public void ClearUngeneratedBlocks()
+    {
+        _ungeneratedBlocks.Remove(ChunkPos);
+    }
+
     public void SetBlock(Vector3I pos, ushort block)
     {
         if (pos.Y >= Size.Y || pos.Y < 0)
