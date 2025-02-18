@@ -54,6 +54,8 @@ public partial class Chunk : MeshInstance3D
                     new Vector3(-0.5f, -0.5f, 0.5f * dir) + position,
                     new Vector3(-0.5f, 0.5f, 0.5f * dir) + position
                 };
+                if (dir == -1)
+                    verts.Reverse();
                 break;
             }
             case MeshUtils.FaceDirection.East:
@@ -67,6 +69,8 @@ public partial class Chunk : MeshInstance3D
                     new Vector3(0.5f * dir, -0.5f, 0.5f) + position,
                     new Vector3(0.5f * dir, 0.5f, 0.5f) + position
                 };
+                if (dir == -1)
+                    verts.Reverse();
                 break;
             }
             case MeshUtils.FaceDirection.Up:
@@ -80,6 +84,8 @@ public partial class Chunk : MeshInstance3D
                     new Vector3(0.5f, 0.5f * dir, -0.5f) + position,
                     new Vector3(0.5f, 0.5f * dir, 0.5f) + position
                 };
+                if (dir == -1)
+                    verts.Reverse();
                 break;
             }
         }
