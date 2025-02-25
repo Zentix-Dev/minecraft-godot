@@ -59,13 +59,15 @@ ChunkBuilder = SubResource("Resource_0757t")
 Viewer = NodePath("../Player")
 RenderDistance = 8
 
-[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("Camera")]
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_chunkManager", "Camera")]
 collision_layer = 2
 script = ExtResource("5_ooiqt")
+_chunkManager = NodePath("../ChunkBuilder")
 Camera = NodePath("Camera3D")
 Sensitivity = Vector2(0.013, 0.013)
 JumpVelocity = 8.0
 Weight = 2.5
+WaterDrag = 50.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
