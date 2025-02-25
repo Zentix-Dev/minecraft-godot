@@ -42,7 +42,7 @@ size = Vector3(0.75, 1.9, 0.75)
 size = Vector3(0.75, 2, 0.75)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oyy3i"]
-bg_color = Color(0, 0.32, 0.6, 0.619608)
+bg_color = Color(0, 0.32, 0.6, 0.611765)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymarn"]
 shading_mode = 0
@@ -62,12 +62,13 @@ ChunkBuilder = SubResource("Resource_0757t")
 Viewer = NodePath("../Player")
 RenderDistance = 8
 
-[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_chunkManager", "Camera")]
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_chunkManager", "Camera", "_waterOverlay")]
 collision_layer = 2
 script = ExtResource("5_ooiqt")
 _chunkManager = NodePath("../ChunkBuilder")
 Camera = NodePath("Camera3D")
 Sensitivity = Vector2(0.013, 0.013)
+_waterOverlay = NodePath("../Control/Panel")
 JumpVelocity = 8.0
 Weight = 2.5
 _waterDrag = 10.0
@@ -107,6 +108,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_oyy3i")
 
 [node name="Label" type="Label" parent="Control" node_paths=PackedStringArray("Player", "ChunkManager")]
