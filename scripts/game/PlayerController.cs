@@ -6,6 +6,8 @@ namespace Minecraft.scripts.game;
 
 public partial class PlayerController : CharacterBody3D
 {
+	[Export] private ChunkManager _chunkManager;
+	
 	[Export, ExportGroup("Camera")] 
 	public Node3D Camera;
 	[Export]
@@ -13,10 +15,10 @@ public partial class PlayerController : CharacterBody3D
 	
 	[Export, ExportGroup("Movement")]
 	public float Speed = 5.0f;
-	[Export]
-	public float JumpVelocity = 6;
-
+	[Export] public float JumpVelocity = 6;
 	[Export] public float Weight = 2;
+	[Export] private float _waterDrag;
+	[Export] private float _waterJumpVelocity;
 
 	private bool _gravityEnabled = false;
 	private bool _inputEnabled = false;
@@ -76,8 +78,13 @@ public partial class PlayerController : CharacterBody3D
 		GlobalPosition = GlobalPosition * new Vector3(1, 0, 1) + height * Vector3.Up;
 	}
 
+	private ushort GetCollidingBlock() => _chunkManager.GetChunkAt(GlobalPosition).GetBlock(_chunkManager.GetPosInChunk(GlobalPosition));
+
 	public override void _PhysicsProcess(double delta)
 	{
+		ushort feetBlock = GetCollidingBlock();
+		bool _isInWater = feetBlock == (ushort)Blocks.DefaultBlock.Water;
+
 		Vector3 velocity = Velocity;
 		
 		if (!IsOnFloor() && _gravityEnabled)
@@ -85,9 +92,9 @@ public partial class PlayerController : CharacterBody3D
 			velocity += GetGravity() * Weight * (float)delta;
 		}
 		
-		if (Input.IsActionPressed("jump") && IsOnFloor())
+		if (Input.IsActionPressed("jump") && (IsOnFloor() || _isInWater))
 		{
-			velocity.Y = JumpVelocity;
+			velocity.Y = _isInWater ? JumpVelocity : _waterJumpVelocity;
 		}
 		
 		Vector2 inputDir = Input.GetVector("left", "right", "up", "down");
@@ -102,6 +109,14 @@ public partial class PlayerController : CharacterBody3D
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
 		}
+
+		GD.Print(_isInWater);
+		float dragForce = _isInWater ? _waterDrag : 0;
+		Vector3 dragVector = -velocity * dragForce;
+		velocity += dragVector * (float)delta;
+		
+		if (velocity.Length() < 0.1f)
+			velocity = Vector3.Zero;
 
 		Velocity = velocity;
 		MoveAndSlide();
