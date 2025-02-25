@@ -12,6 +12,7 @@ public partial class ChunkManager : Node3D
     [Export] public ChunkBuilder ChunkBuilder;
     [Export] public Node3D Viewer;
     [Export] public int RenderDistance;
+    [Export] private CollisionShape3D _playerCollider;
     
     public Dictionary<Vector2I, Chunk> Chunks = new();
 
@@ -31,6 +32,7 @@ public partial class ChunkManager : Node3D
         chunk.Position = new Vector3(position.X * Chunk.Size.X, 0, position.Y * Chunk.Size.Z);
         chunk.ChunkPos = position;
         chunk.ChunkManager = this;
+        chunk.PlayerCollider = _playerCollider;
         
         Chunks.Add(position, chunk);
         chunk.UpdateNeighbors();
