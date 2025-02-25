@@ -24,6 +24,7 @@ public partial class PlayerController : CharacterBody3D
 	private bool _inputEnabled = false;
 
 	private bool _escaped;
+	private bool _isInWater;
 
 	public override void _EnterTree()
 	{
@@ -83,7 +84,8 @@ public partial class PlayerController : CharacterBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		ushort feetBlock = GetCollidingBlock();
-		bool _isInWater = feetBlock == (ushort)Blocks.DefaultBlock.Water;
+		bool _wasInWater = _isInWater;
+		_isInWater = feetBlock == (ushort)Blocks.DefaultBlock.Water;
 
 		Vector3 velocity = Velocity;
 		
@@ -94,7 +96,8 @@ public partial class PlayerController : CharacterBody3D
 		
 		if (Input.IsActionPressed("jump") && (IsOnFloor() || _isInWater))
 		{
-			velocity.Y = _isInWater ? JumpVelocity : _waterJumpVelocity;
+			velocity.Y = _isInWater ? _waterJumpVelocity : JumpVelocity 
+			            * (!_isInWater && _wasInWater ? 2 : 1); // Add boost when exiting water
 		}
 		
 		Vector2 inputDir = Input.GetVector("left", "right", "up", "down");
