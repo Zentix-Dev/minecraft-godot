@@ -67,7 +67,8 @@ Camera = NodePath("Camera3D")
 Sensitivity = Vector2(0.013, 0.013)
 JumpVelocity = 8.0
 Weight = 2.5
-WaterDrag = 50.0
+_waterDrag = 0.6
+_waterJumpVelocity = 2.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
