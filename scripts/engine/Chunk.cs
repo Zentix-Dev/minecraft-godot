@@ -14,8 +14,6 @@ public partial class Chunk : MeshInstance3D
 
     [Export] public CollisionShape3D CollisionShape;
     [Export] private MeshInstance3D _transparentMeshInstance;
-
-    public CollisionShape3D PlayerCollider;
     
     public ChunkManager ChunkManager;
     public Vector2I ChunkPos;
