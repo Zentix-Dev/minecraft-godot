@@ -26,9 +26,9 @@ public partial class Chunk : MeshInstance3D
 
     private List<Vector3> _collisionFaces;
     
-    private static readonly Dictionary<Vector2I, Dictionary<Vector3I, ushort>> _ungeneratedBlocks = new();
+    private static readonly Dictionary<Vector2I, Dictionary<Vector3I, ushort>> UngeneratedBlocks = new();
 
-    private static readonly LinkedList<Chunk> _updateQueue = new();
+    private static readonly LinkedList<Chunk> UpdateQueue = new();
     private static Chunk _currentUpdatingChunk;
     private static bool _isDone = true;
     private bool _isWaiting;
@@ -163,20 +163,20 @@ public partial class Chunk : MeshInstance3D
 
     private void AddUngeneratedBlock(Vector2I chunkPos, Vector3I pos, ushort block)
     {
-        if (!_ungeneratedBlocks.ContainsKey(chunkPos))
-            _ungeneratedBlocks[chunkPos] = new Dictionary<Vector3I, ushort>();
-        var chunkDictionary = _ungeneratedBlocks[chunkPos];
+        if (!UngeneratedBlocks.ContainsKey(chunkPos))
+            UngeneratedBlocks[chunkPos] = new Dictionary<Vector3I, ushort>();
+        var chunkDictionary = UngeneratedBlocks[chunkPos];
         chunkDictionary[pos] = block;
     }
 
     public Dictionary<Vector3I, ushort> GetUngeneratedBlocks()
     {
-        return _ungeneratedBlocks.GetValueOrDefault(ChunkPos);
+        return UngeneratedBlocks.GetValueOrDefault(ChunkPos);
     }
 
     public void ClearUngeneratedBlocks()
     {
-        _ungeneratedBlocks.Remove(ChunkPos);
+        UngeneratedBlocks.Remove(ChunkPos);
     }
 
     public void SetBlock(Vector3I pos, ushort block)
@@ -251,10 +251,10 @@ public partial class Chunk : MeshInstance3D
                 _currentUpdatingChunk.CreateMesh();
                 _currentUpdatingChunk = null;
             }
-            if (_updateQueue.Count > 0)
+            if (UpdateQueue.Count > 0)
             {
-                _currentUpdatingChunk = _updateQueue.First!.Value;
-                _updateQueue.RemoveFirst();
+                _currentUpdatingChunk = UpdateQueue.First!.Value;
+                UpdateQueue.RemoveFirst();
                 _isDone = false;
                 _currentUpdatingChunk.UpdateMeshNow();
             }
@@ -321,13 +321,13 @@ public partial class Chunk : MeshInstance3D
     {
         if (_isWaiting) return;
         if (_isUpdating) _isWaiting = true;
-        _updateQueue.AddFirst(this);
+        UpdateQueue.AddFirst(this);
     }
 
     public void UpdateMesh()
     {
         if (_isWaiting) return;
         if (_isUpdating) _isWaiting = true;
-        _updateQueue.AddLast(this);
+        UpdateQueue.AddLast(this);
     }
 }
