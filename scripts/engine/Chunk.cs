@@ -26,9 +26,9 @@ public partial class Chunk : MeshInstance3D
 
     private List<Vector3> _collisionFaces;
     
-    private static Dictionary<Vector2I, Dictionary<Vector3I, ushort>> _ungeneratedBlocks = new();
+    private static readonly Dictionary<Vector2I, Dictionary<Vector3I, ushort>> _ungeneratedBlocks = new();
 
-    private static LinkedList<Chunk> _updateQueue = new();
+    private static readonly LinkedList<Chunk> _updateQueue = new();
     private static Chunk _currentUpdatingChunk;
     private static bool _isDone = true;
     private bool _isWaiting;
