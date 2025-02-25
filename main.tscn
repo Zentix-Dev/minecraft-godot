@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://y30mgtlucwio"]
+[gd_scene load_steps=19 format=3 uid="uid://y30mgtlucwio"]
 
 [ext_resource type="Script" path="res://scripts/worldgen/ChunkManager.cs" id="2_5mwg0"]
 [ext_resource type="PackedScene" uid="uid://wqof2vwfl0ua" path="res://scripts/worldgen/chunk.tscn" id="2_s5tm7"]
@@ -41,6 +41,9 @@ size = Vector3(0.75, 1.9, 0.75)
 [sub_resource type="BoxMesh" id="BoxMesh_ebieq"]
 size = Vector3(0.75, 2, 0.75)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oyy3i"]
+bg_color = Color(0, 0.32, 0.6, 0.619608)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ymarn"]
 shading_mode = 0
 
@@ -67,8 +70,9 @@ Camera = NodePath("Camera3D")
 Sensitivity = Vector2(0.013, 0.013)
 JumpVelocity = 8.0
 Weight = 2.5
-_waterDrag = 0.6
-_waterJumpVelocity = 2.0
+_waterDrag = 10.0
+_waterJumpVelocity = 4.0
+_waterExitBoost = 0.75
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
@@ -95,6 +99,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_oyy3i")
 
 [node name="Label" type="Label" parent="Control" node_paths=PackedStringArray("Player", "ChunkManager")]
 layout_mode = 0
