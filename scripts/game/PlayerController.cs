@@ -19,6 +19,7 @@ public partial class PlayerController : CharacterBody3D
 	[Export] public float Weight = 2;
 	[Export] private float _waterDrag;
 	[Export] private float _waterJumpVelocity;
+	[Export] private float _waterExitBoost = 2;
 
 	private bool _gravityEnabled = false;
 	private bool _inputEnabled = false;
@@ -97,7 +98,7 @@ public partial class PlayerController : CharacterBody3D
 		if (Input.IsActionPressed("jump") && (IsOnFloor() || _isInWater))
 		{
 			velocity.Y = _isInWater ? _waterJumpVelocity : JumpVelocity 
-			            * (!_isInWater && _wasInWater ? 2 : 1); // Add boost when exiting water
+			            * (!_isInWater && _wasInWater ? _waterExitBoost : 1); // Add boost when exiting water
 		}
 		
 		Vector2 inputDir = Input.GetVector("left", "right", "up", "down");
