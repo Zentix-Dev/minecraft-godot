@@ -10,8 +10,8 @@ public partial class PlayerController : CharacterBody3D
 	
 	[Export, ExportGroup("Camera")] 
 	public Node3D Camera;
-	[Export]
-	public Vector2 Sensitivity = Vector2.One;
+	[Export] public Vector2 Sensitivity = Vector2.One;
+	[Export] private Control _waterOverlay;
 	
 	[Export, ExportGroup("Movement")]
 	public float Speed = 5.0f;
@@ -80,13 +80,17 @@ public partial class PlayerController : CharacterBody3D
 		GlobalPosition = GlobalPosition * new Vector3(1, 0, 1) + height * Vector3.Up;
 	}
 
-	private ushort GetCollidingBlock() => _chunkManager.GetChunkAt(GlobalPosition).GetBlock(_chunkManager.GetPosInChunk(GlobalPosition));
+	private ushort GetCollidingBlock() => GetCollidingBlock(Vector3.Zero);
+	private ushort GetCollidingBlock(Vector3 offset) => _chunkManager.GetChunkAt(GlobalPosition + offset).GetBlock(_chunkManager.GetPosInChunk(GlobalPosition + offset));
 
 	public override void _PhysicsProcess(double delta)
 	{
+		ushort headBlock = GetCollidingBlock(Vector3.Up);
 		ushort feetBlock = GetCollidingBlock();
-		bool _wasInWater = _isInWater;
+		bool wasInWater = _isInWater;
 		_isInWater = feetBlock == (ushort)Blocks.DefaultBlock.Water;
+
+		_waterOverlay.Visible = headBlock == (ushort)Blocks.DefaultBlock.Water;
 
 		Vector3 velocity = Velocity;
 		
@@ -95,10 +99,10 @@ public partial class PlayerController : CharacterBody3D
 			velocity += GetGravity() * Weight * (float)delta;
 		}
 		
-		if (Input.IsActionPressed("jump") && (IsOnFloor() || _isInWater))
+		if (Input.IsActionPressed("jump") && (IsOnFloor() || _isInWater || wasInWater))
 		{
 			velocity.Y = _isInWater ? _waterJumpVelocity : JumpVelocity 
-			            * (!_isInWater && _wasInWater ? _waterExitBoost : 1); // Add boost when exiting water
+			            * (!_isInWater && wasInWater ? _waterExitBoost : 1); // Add boost when exiting water
 		}
 		
 		Vector2 inputDir = Input.GetVector("left", "right", "up", "down");
