@@ -85,7 +85,7 @@ public partial class PlayerController : CharacterBody3D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		ushort headBlock = GetCollidingBlock(Vector3.Up);
+		ushort headBlock = GetCollidingBlock(new Vector3(0, 1.5f, 0));
 		ushort feetBlock = GetCollidingBlock();
 		bool wasInWater = _isInWater;
 		_isInWater = feetBlock == (ushort)Blocks.DefaultBlock.Water;
