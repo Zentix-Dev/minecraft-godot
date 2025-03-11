@@ -134,10 +134,10 @@ texture = ExtResource("7_y5xew")
 
 [node name="EditorCameraSwitcher" type="Node3D" parent="." node_paths=PackedStringArray("Player", "ChunkManager", "Crosshair")]
 script = ExtResource("9_5f4xb")
-EditorCameraScene = ExtResource("10_86qg6")
 Player = NodePath("../Player")
 ChunkManager = NodePath("../ChunkBuilder")
 Crosshair = NodePath("../Control/TextureRect")
+EditorCameraScene = ExtResource("10_86qg6")
 
 [node name="CubeSelection" type="MeshInstance3D" parent="."]
 visible = false
