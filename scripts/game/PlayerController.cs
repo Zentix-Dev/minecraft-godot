@@ -27,7 +27,7 @@ public partial class PlayerController : CharacterBody3D
 	private bool _escaped;
 	
 	private bool _isFeetInWater;
-	private bool _canJump = true;
+	private bool _hasJumpedOutOfWater;
 	private bool _wasInWater;
 
 	public override void _EnterTree()
@@ -89,7 +89,7 @@ public partial class PlayerController : CharacterBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		ushort headBlock = GetCollidingBlock(new Vector3(0, 1.5f, 0));
-		ushort middleBlock = GetCollidingBlock(new Vector3(0, .8f, 0));
+		ushort middleBlock = GetCollidingBlock(new Vector3(0, .5f, 0));
 		ushort feetBlock = GetCollidingBlock();
 		_isFeetInWater = feetBlock == (ushort)Blocks.DefaultBlock.Water;
 
@@ -99,16 +99,27 @@ public partial class PlayerController : CharacterBody3D
 		
 		if (!IsOnFloor() && _gravityEnabled)
 			velocity += GetGravity() * Weight * (float)delta; // Gravity on land
-		
-		if (Input.IsActionPressed("jump") && (IsOnFloor() || _isFeetInWater && _wasInWater))
+
+		if (_wasInWater)
+			_hasJumpedOutOfWater = false;
+
+		if (Input.IsActionPressed("jump") && IsOnFloor())
 		{
-			GD.Print(_wasInWater);
-			bool isLeaving = !_isFeetInWater && _wasInWater;
-			if (!_isFeetInWater)
-				_wasInWater = false;
-			
-			velocity.Y = _isFeetInWater ? _waterJumpVelocity : JumpVelocity
-						* (isLeaving ? _waterExitBoost : 1); // Add boost when exiting water
+			velocity.Y = 0;
+			velocity.Y = JumpVelocity;
+		}
+		else if (Input.IsActionPressed("jump") && _isFeetInWater && !_hasJumpedOutOfWater) // Moving up in water
+		{
+			velocity.Y = 0;
+			velocity.Y += _waterJumpVelocity;
+		}
+		else if (Input.IsActionPressed("jump") && _wasInWater && !_isFeetInWater)
+		{
+			GD.Print("Jumping out of water");
+			velocity.Y = 0;
+			_hasJumpedOutOfWater = true;
+			_wasInWater = false;
+			velocity.Y = JumpVelocity * _waterExitBoost;
 		}
 		
 		Vector2 inputDir = Input.GetVector("left", "right", "up", "down");
