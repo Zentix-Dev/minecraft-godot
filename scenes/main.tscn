@@ -8,9 +8,9 @@
 [ext_resource type="Script" path="res://scripts/game/PlayerController.cs" id="5_ooiqt"]
 [ext_resource type="Script" path="res://scripts/ChunkDebugger.cs" id="6_4y2if"]
 [ext_resource type="Environment" uid="uid://cro2pmg8ji675" path="res://environment/Water Environment.tres" id="6_v61o7"]
-[ext_resource type="Texture2D" uid="uid://bm60c7jutb53k" path="res://crosshair.png" id="7_y5xew"]
+[ext_resource type="Texture2D" uid="uid://bm60c7jutb53k" path="res://assets/crosshair.png" id="7_y5xew"]
 [ext_resource type="Script" path="res://scripts/EditorCameraSwitcher.cs" id="9_5f4xb"]
-[ext_resource type="PackedScene" uid="uid://d0uc2sukjk2jv" path="res://editor_camera.tscn" id="10_86qg6"]
+[ext_resource type="PackedScene" uid="uid://d0uc2sukjk2jv" path="res://scenes/editor_camera.tscn" id="10_86qg6"]
 [ext_resource type="Script" path="res://scripts/game/CubeSelection.cs" id="10_jc8rt"]
 
 [sub_resource type="Resource" id="Resource_0757t"]
@@ -134,10 +134,10 @@ texture = ExtResource("7_y5xew")
 
 [node name="EditorCameraSwitcher" type="Node3D" parent="." node_paths=PackedStringArray("Player", "ChunkManager", "Crosshair")]
 script = ExtResource("9_5f4xb")
+EditorCameraScene = ExtResource("10_86qg6")
 Player = NodePath("../Player")
 ChunkManager = NodePath("../ChunkBuilder")
 Crosshair = NodePath("../Control/TextureRect")
-EditorCameraScene = ExtResource("10_86qg6")
 
 [node name="CubeSelection" type="MeshInstance3D" parent="."]
 visible = false
