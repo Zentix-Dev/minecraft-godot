@@ -25,7 +25,10 @@ public partial class PlayerController : CharacterBody3D
 	private bool _inputEnabled = false;
 
 	private bool _escaped;
-	private bool _isInWater;
+	
+	private bool _isFeetInWater;
+	private bool _canJump = true;
+	private bool _wasInWater;
 
 	public override void _EnterTree()
 	{
@@ -86,23 +89,26 @@ public partial class PlayerController : CharacterBody3D
 	public override void _PhysicsProcess(double delta)
 	{
 		ushort headBlock = GetCollidingBlock(new Vector3(0, 1.5f, 0));
+		ushort middleBlock = GetCollidingBlock(new Vector3(0, .8f, 0));
 		ushort feetBlock = GetCollidingBlock();
-		bool wasInWater = _isInWater;
-		_isInWater = feetBlock == (ushort)Blocks.DefaultBlock.Water;
+		_isFeetInWater = feetBlock == (ushort)Blocks.DefaultBlock.Water;
 
 		_waterOverlay.Visible = headBlock == (ushort)Blocks.DefaultBlock.Water;
 
 		Vector3 velocity = Velocity;
 		
 		if (!IsOnFloor() && _gravityEnabled)
-		{
-			velocity += GetGravity() * Weight * (float)delta;
-		}
+			velocity += GetGravity() * Weight * (float)delta; // Gravity on land
 		
-		if (Input.IsActionPressed("jump") && (IsOnFloor() || _isInWater || wasInWater))
+		if (Input.IsActionPressed("jump") && (IsOnFloor() || _isFeetInWater && _wasInWater))
 		{
-			velocity.Y = _isInWater ? _waterJumpVelocity : JumpVelocity 
-			            * (!_isInWater && wasInWater ? _waterExitBoost : 1); // Add boost when exiting water
+			GD.Print(_wasInWater);
+			bool isLeaving = !_isFeetInWater && _wasInWater;
+			if (!_isFeetInWater)
+				_wasInWater = false;
+			
+			velocity.Y = _isFeetInWater ? _waterJumpVelocity : JumpVelocity
+						* (isLeaving ? _waterExitBoost : 1); // Add boost when exiting water
 		}
 		
 		Vector2 inputDir = Input.GetVector("left", "right", "up", "down");
@@ -117,9 +123,8 @@ public partial class PlayerController : CharacterBody3D
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
 			velocity.Z = Mathf.MoveToward(Velocity.Z, 0, Speed);
 		}
-
-		GD.Print(_isInWater);
-		float dragForce = _isInWater ? _waterDrag : 0;
+		
+		float dragForce = _isFeetInWater ? _waterDrag : 0;
 		Vector3 dragVector = -velocity * dragForce;
 		velocity += dragVector * (float)delta;
 		
@@ -128,5 +133,7 @@ public partial class PlayerController : CharacterBody3D
 
 		Velocity = velocity;
 		MoveAndSlide();
+
+		_wasInWater = _wasInWater || middleBlock == (ushort)Blocks.DefaultBlock.Water;
 	}
 }
