@@ -1,0 +1,15 @@
+[gd_resource type="Environment" load_steps=3 format=3 uid="uid://cro2pmg8ji675"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_enmal"]
+
+[sub_resource type="Sky" id="Sky_huklt"]
+sky_material = SubResource("PhysicalSkyMaterial_enmal")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_huklt")
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.374812, 0.503704, 0.849824, 1)
+fog_density = 1.0
+fog_depth_end = 15.0

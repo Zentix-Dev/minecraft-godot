@@ -1,24 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://y30mgtlucwio"]
+[gd_scene load_steps=18 format=3 uid="uid://y30mgtlucwio"]
 
+[ext_resource type="Environment" uid="uid://dx51w377p5pae" path="res://environment/Air Environment.tres" id="1_4srhc"]
 [ext_resource type="Script" path="res://scripts/worldgen/ChunkManager.cs" id="2_5mwg0"]
 [ext_resource type="PackedScene" uid="uid://wqof2vwfl0ua" path="res://scripts/worldgen/chunk.tscn" id="2_s5tm7"]
 [ext_resource type="Script" path="res://scripts/worldgen/StandardChunkBuilder.cs" id="3_gboxg"]
 [ext_resource type="Script" path="res://scripts/game/BlockBreaker.cs" id="5_cdg6q"]
 [ext_resource type="Script" path="res://scripts/game/PlayerController.cs" id="5_ooiqt"]
-[ext_resource type="Script" path="res://ChunkDebugger.cs" id="6_4y2if"]
+[ext_resource type="Script" path="res://scripts/ChunkDebugger.cs" id="6_4y2if"]
+[ext_resource type="Environment" uid="uid://cro2pmg8ji675" path="res://environment/Water Environment.tres" id="6_v61o7"]
 [ext_resource type="Texture2D" uid="uid://bm60c7jutb53k" path="res://crosshair.png" id="7_y5xew"]
-[ext_resource type="Script" path="res://EditorCameraSwitcher.cs" id="9_5f4xb"]
+[ext_resource type="Script" path="res://scripts/EditorCameraSwitcher.cs" id="9_5f4xb"]
 [ext_resource type="PackedScene" uid="uid://d0uc2sukjk2jv" path="res://editor_camera.tscn" id="10_86qg6"]
 [ext_resource type="Script" path="res://scripts/game/CubeSelection.cs" id="10_jc8rt"]
-
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_enmal"]
-
-[sub_resource type="Sky" id="Sky_huklt"]
-sky_material = SubResource("PhysicalSkyMaterial_enmal")
-
-[sub_resource type="Environment" id="Environment_423xg"]
-background_mode = 2
-sky = SubResource("Sky_huklt")
 
 [sub_resource type="Resource" id="Resource_0757t"]
 script = ExtResource("3_gboxg")
@@ -53,7 +46,7 @@ shading_mode = 0
 transform = Transform3D(-0.0346652, 0.989472, -0.140514, 0.337323, 0.143932, 0.930321, 0.940751, -0.0151488, -0.338761, 0, 0.0030418, 0)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_423xg")
+environment = ExtResource("1_4srhc")
 
 [node name="ChunkBuilder" type="Node3D" parent="." node_paths=PackedStringArray("Viewer")]
 script = ExtResource("2_5mwg0")
@@ -62,7 +55,7 @@ ChunkBuilder = SubResource("Resource_0757t")
 Viewer = NodePath("../Player")
 RenderDistance = 8
 
-[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_chunkManager", "Camera", "_waterOverlay")]
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_chunkManager", "Camera", "_waterOverlay", "_worldEnvironment")]
 collision_layer = 2
 script = ExtResource("5_ooiqt")
 _chunkManager = NodePath("../ChunkBuilder")
@@ -73,7 +66,10 @@ JumpVelocity = 8.0
 Weight = 2.5
 _waterDrag = 10.0
 _waterJumpVelocity = 4.0
-_waterExitBoost = 0.75
+_waterExitBoost = 0.5
+_worldEnvironment = NodePath("../WorldEnvironment")
+_waterEnvironment = ExtResource("6_v61o7")
+_airEnvironment = ExtResource("1_4srhc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
