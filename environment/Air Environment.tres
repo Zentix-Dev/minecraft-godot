@@ -8,7 +8,6 @@ sky_material = SubResource("PhysicalSkyMaterial_enmal")
 [resource]
 background_mode = 2
 sky = SubResource("Sky_huklt")
-fog_enabled = true
 fog_mode = 1
 fog_density = 1.0
 fog_depth_begin = 150.0
