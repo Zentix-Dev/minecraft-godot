@@ -21,6 +21,11 @@ public partial class PlayerController : CharacterBody3D
 	[Export] private float _waterJumpVelocity;
 	[Export] private float _waterExitBoost = 2;
 
+	[ExportGroup("World Environment")] [Export]
+	private WorldEnvironment _worldEnvironment;
+	[Export] private Environment _waterEnvironment;
+	[Export] private Environment _airEnvironment;
+
 	private bool _gravityEnabled = false;
 	private bool _inputEnabled = false;
 
@@ -93,7 +98,9 @@ public partial class PlayerController : CharacterBody3D
 		ushort feetBlock = GetCollidingBlock();
 		_isFeetInWater = feetBlock == (ushort)Blocks.DefaultBlock.Water;
 
-		_waterOverlay.Visible = headBlock == (ushort)Blocks.DefaultBlock.Water;
+		bool headInWater = headBlock == (ushort)Blocks.DefaultBlock.Water;
+		_waterOverlay.Visible = headInWater;
+		_worldEnvironment.Environment = headInWater ? _waterEnvironment : _airEnvironment;
 
 		Vector3 velocity = Velocity;
 		
