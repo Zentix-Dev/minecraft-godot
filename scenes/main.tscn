@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://bm60c7jutb53k" path="res://assets/crosshair.png" id="7_y5xew"]
 [ext_resource type="Script" path="res://scripts/game/BlockPicker.cs" id="8_ief5e"]
 [ext_resource type="Script" path="res://scripts/EditorCameraSwitcher.cs" id="9_5f4xb"]
-[ext_resource type="Material" uid="uid://c0huhvrpn5bky" path="res://assets/cube_material.tres" id="9_xrm1i"]
+[ext_resource type="Material" uid="uid://dswd34qofcl8i" path="res://assets/item_material.tres" id="9_quabb"]
 [ext_resource type="PackedScene" uid="uid://d0uc2sukjk2jv" path="res://scenes/editor_camera.tscn" id="10_86qg6"]
 [ext_resource type="Script" path="res://scripts/game/CubeSelection.cs" id="10_jc8rt"]
 
@@ -99,7 +99,8 @@ script = ExtResource("8_ief5e")
 _blockMesh = NodePath("BlockMesh")
 
 [node name="BlockMesh" type="MeshInstance3D" parent="Player/Camera3D/HoldingBlock"]
-material_override = ExtResource("9_xrm1i")
+layers = 2
+material_override = ExtResource("9_quabb")
 mesh = SubResource("BoxMesh_7gbdw")
 
 [node name="Control" type="Control" parent="."]
