@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://y30mgtlucwio"]
+[gd_scene load_steps=21 format=3 uid="uid://y30mgtlucwio"]
 
 [ext_resource type="Environment" uid="uid://dx51w377p5pae" path="res://environment/Air Environment.tres" id="1_4srhc"]
 [ext_resource type="Script" path="res://scripts/worldgen/ChunkManager.cs" id="2_5mwg0"]
@@ -9,7 +9,9 @@
 [ext_resource type="Script" path="res://scripts/ChunkDebugger.cs" id="6_4y2if"]
 [ext_resource type="Environment" uid="uid://cro2pmg8ji675" path="res://environment/Water Environment.tres" id="6_v61o7"]
 [ext_resource type="Texture2D" uid="uid://bm60c7jutb53k" path="res://assets/crosshair.png" id="7_y5xew"]
+[ext_resource type="Script" path="res://scripts/game/BlockPicker.cs" id="8_ief5e"]
 [ext_resource type="Script" path="res://scripts/EditorCameraSwitcher.cs" id="9_5f4xb"]
+[ext_resource type="Material" uid="uid://c0huhvrpn5bky" path="res://assets/cube_material.tres" id="9_xrm1i"]
 [ext_resource type="PackedScene" uid="uid://d0uc2sukjk2jv" path="res://scenes/editor_camera.tscn" id="10_86qg6"]
 [ext_resource type="Script" path="res://scripts/game/CubeSelection.cs" id="10_jc8rt"]
 
@@ -85,15 +87,19 @@ mesh = SubResource("BoxMesh_ebieq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.63558, 0)
 current = true
 
-[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D" node_paths=PackedStringArray("_selectionCube")]
+[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D" node_paths=PackedStringArray("_selectionCube", "_blockPicker")]
 target_position = Vector3(0, 0, -5)
 script = ExtResource("5_cdg6q")
 _selectionCube = NodePath("../../../CubeSelection")
+_blockPicker = NodePath("../HoldingBlock")
 
-[node name="HoldingBlock" type="Node3D" parent="Player/Camera3D"]
+[node name="HoldingBlock" type="Node3D" parent="Player/Camera3D" node_paths=PackedStringArray("_blockMesh")]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 1.265, -0.83, -1.545)
+script = ExtResource("8_ief5e")
+_blockMesh = NodePath("BlockMesh")
 
 [node name="BlockMesh" type="MeshInstance3D" parent="Player/Camera3D/HoldingBlock"]
+material_override = ExtResource("9_xrm1i")
 mesh = SubResource("BoxMesh_7gbdw")
 
 [node name="Control" type="Control" parent="."]
