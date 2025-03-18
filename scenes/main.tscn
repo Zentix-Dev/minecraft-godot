@@ -87,11 +87,12 @@ mesh = SubResource("BoxMesh_ebieq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.63558, 0)
 current = true
 
-[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D" node_paths=PackedStringArray("_selectionCube", "_blockPicker")]
+[node name="RayCast3D" type="RayCast3D" parent="Player/Camera3D" node_paths=PackedStringArray("_selectionCube", "_blockPicker", "_player")]
 target_position = Vector3(0, 0, -5)
 script = ExtResource("5_cdg6q")
 _selectionCube = NodePath("../../../CubeSelection")
 _blockPicker = NodePath("../HoldingBlock")
+_player = NodePath("../..")
 
 [node name="HoldingBlock" type="Node3D" parent="Player/Camera3D" node_paths=PackedStringArray("_blockMesh")]
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 1.265, -0.83, -1.545)

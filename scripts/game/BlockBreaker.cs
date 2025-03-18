@@ -8,6 +8,7 @@ public partial class BlockBreaker : RayCast3D
 {
     [Export] private CubeSelection _selectionCube;
     [Export] private BlockPicker _blockPicker;
+    [Export] private Node3D _player;
 
     private bool _needsUpdate = false;
 
@@ -30,6 +31,13 @@ public partial class BlockBreaker : RayCast3D
         Chunk chunk = chunkManager.GetChunkAt(worldPosHit);
         Vector2I chunkPos = chunkManager.GetChunkPosAt(worldPosHit);
         Vector3I posInChunk = chunkManager.GetPosInChunk(worldPosHit);
+
+        Vector3I playerPos = chunkManager.GetPosInChunk(_player.GlobalPosition);
+        Vector2I playerChunkPos = chunkManager.GetChunkPosAt(_player.GlobalPosition);
+
+        if (chunkPos == playerChunkPos && playerPos == posInChunk)
+            return;
+        
         GD.Print($"Destroying block: {chunk.GetBlock(posInChunk)} at pos {posInChunk} of chunk {chunkPos}");
         chunk.SetBlock(posInChunk, destroy ? (ushort)Blocks.DefaultBlock.Air : block);
         chunk.UpdateNeighborsImmediate();
