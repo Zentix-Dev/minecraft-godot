@@ -55,7 +55,7 @@ public partial class BlockBreaker : RayCast3D
         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left or MouseButton.Right } mouseButtonEvent)
         {
             bool isDestroy = mouseButtonEvent.ButtonIndex == MouseButton.Left;
-            SetTargetBlock(isDestroy, (ushort)_blockPicker.SelectedBlockIndex);
+            SetTargetBlock(isDestroy, (ushort)_blockPicker.SelectedBlock);
         }
     }
 }
