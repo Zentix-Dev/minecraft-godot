@@ -9,14 +9,14 @@ public partial class BlockPicker : Node3D
 {
     [Export] private MeshInstance3D _blockMesh;
 
-    private int _selectedBlock = 0;
+    private int _selectedBlockIndex = 0;
 
-    public int SelectedBlock
+    public int SelectedBlockIndex
     {
-        get => _selectedBlock;
+        get => _selectedBlockIndex;
         set
         {
-            _selectedBlock = (value % _blocks.Length + _blocks.Length) % _blocks.Length;
+            _selectedBlockIndex = (value % _blocks.Length + _blocks.Length) % _blocks.Length;
             UpdateSelectedBlock();
         }
     }
@@ -30,7 +30,7 @@ public partial class BlockPicker : Node3D
 
     private void UpdateSelectedBlock()
     {
-        _blockMesh.Mesh = PreviewBlockGenerator.GenerateBlockMesh(_blocks[_selectedBlock]);
+        _blockMesh.Mesh = PreviewBlockGenerator.GenerateBlockMesh(_blocks[_selectedBlockIndex]);
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -38,9 +38,9 @@ public partial class BlockPicker : Node3D
         if (@event is InputEventMouseButton {Pressed: true} mouseButtonEvent)
         {
             if (mouseButtonEvent.ButtonIndex == MouseButton.WheelDown)
-                SelectedBlock++;
+                SelectedBlockIndex++;
             else if (mouseButtonEvent.ButtonIndex == MouseButton.WheelUp)
-                SelectedBlock--;
+                SelectedBlockIndex--;
         }
     }
 }
