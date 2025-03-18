@@ -4,9 +4,9 @@ using Godot;
 
 namespace Minecraft.scripts.engine;
 
-public class PreviewBlockGenerator
+public static class PreviewBlockGenerator
 {
-    public ArrayMesh GenerateBlockMesh(Blocks.DefaultBlock block)
+    public static ArrayMesh GenerateBlockMesh(Blocks.DefaultBlock block)
     {
         var vertices = new List<Vector3>();
         var triangles = new List<int>();
