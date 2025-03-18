@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using Minecraft.scripts.engine;
 
@@ -21,7 +21,7 @@ public partial class BlockPicker : Node3D
         }
     }
 
-    private Blocks.DefaultBlock[] _blocks = Enum.GetValues<Blocks.DefaultBlock>();
+    private Blocks.DefaultBlock[] _blocks = Enum.GetValues<Blocks.DefaultBlock>().Where(b => b != Blocks.DefaultBlock.Air).ToArray();
 
     public override void _Ready()
     {
