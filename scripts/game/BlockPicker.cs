@@ -21,6 +21,8 @@ public partial class BlockPicker : Node3D
         }
     }
 
+    public Blocks.DefaultBlock SelectedBlock => _blocks[SelectedBlockIndex];
+
     private Blocks.DefaultBlock[] _blocks = Enum.GetValues<Blocks.DefaultBlock>().Where(b => b != Blocks.DefaultBlock.Air).ToArray();
 
     public override void _Ready()
