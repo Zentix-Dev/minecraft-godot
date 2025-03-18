@@ -7,6 +7,7 @@ namespace Minecraft.scripts.game;
 public partial class BlockBreaker : RayCast3D
 {
     [Export] private CubeSelection _selectionCube;
+    [Export] private BlockPicker _blockPicker;
 
     private bool _needsUpdate = false;
 
@@ -54,7 +55,7 @@ public partial class BlockBreaker : RayCast3D
         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Left or MouseButton.Right } mouseButtonEvent)
         {
             bool isDestroy = mouseButtonEvent.ButtonIndex == MouseButton.Left;
-            SetTargetBlock(isDestroy, (ushort)Blocks.DefaultBlock.Stone);
+            SetTargetBlock(isDestroy, (ushort)_blockPicker.SelectedBlock);
         }
     }
 }
