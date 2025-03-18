@@ -16,7 +16,7 @@ public partial class BlockPicker : Node3D
         get => _selectedBlock;
         set
         {
-            _selectedBlock = value % _blocks.Length;
+            _selectedBlock = (value % _blocks.Length + _blocks.Length) % _blocks.Length;
             UpdateSelectedBlock();
         }
     }
