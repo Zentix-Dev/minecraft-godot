@@ -1,6 +1,8 @@
 # Minecraft In Godot
 
-This is a very simple miencraft clone made with the godot engine and C#. The project currently features:
+<img title="Screenshot" src="https://raw.githubusercontent.com/Zentix-Dev/minecraft-godot/refs/heads/master/readme_screenshot.png" alt="alt text" height="400" width="736">
+
+This is a very simple minecraft clone made with the godot engine and C#. The project currently features:
 
 - Procedural World Generation with water and trees
 
@@ -31,5 +33,3 @@ More features are being added
 | Scroll      | Change block selection                                 |
 | F           | Toggle fly mode <br/>(hold right click to look around) |
 | ESC         | Unlock the cursor                                      |
-
-
