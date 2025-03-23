@@ -57,7 +57,7 @@ script = ExtResource("2_5mwg0")
 _chunkScene = ExtResource("2_s5tm7")
 ChunkBuilder = SubResource("Resource_0757t")
 Viewer = NodePath("../Player")
-RenderDistance = 8
+RenderDistance = 16
 
 [node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_chunkManager", "Camera", "_waterOverlay", "_worldEnvironment")]
 collision_layer = 2
