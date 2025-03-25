@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://y30mgtlucwio"]
+[gd_scene load_steps=24 format=3 uid="uid://y30mgtlucwio"]
 
 [ext_resource type="Environment" uid="uid://dx51w377p5pae" path="res://environment/Air Environment.tres" id="1_4srhc"]
 [ext_resource type="Script" path="res://scripts/worldgen/ChunkManager.cs" id="2_5mwg0"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://scripts/game/CubeSelection.cs" id="10_jc8rt"]
 [ext_resource type="Texture2D" uid="uid://cr3ur84nbchnp" path="res://assets/inventory_slot.png" id="12_k6874"]
 [ext_resource type="Texture2D" uid="uid://bpj0ocld3krpj" path="res://assets/inventory_slot_selected.png" id="13_iov0k"]
+[ext_resource type="Texture2D" uid="uid://dfvs17mpme3pu" path="res://assets/ui_panel.png" id="14_006r7"]
 
 [sub_resource type="Resource" id="Resource_0757t"]
 script = ExtResource("3_gboxg")
@@ -196,6 +197,24 @@ offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("13_iov0k")
+
+[node name="Control" type="Control" parent="Control"]
+anchors_preset = 0
+offset_left = 410.0
+offset_top = 157.0
+offset_right = 895.0
+offset_bottom = 465.0
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Control/Control"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_006r7")
+region_rect = Rect2(6, 6, 20, 20)
 
 [node name="EditorCameraSwitcher" type="Node3D" parent="." node_paths=PackedStringArray("Player", "ChunkManager", "Crosshair")]
 script = ExtResource("9_5f4xb")
